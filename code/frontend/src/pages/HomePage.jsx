@@ -48,6 +48,7 @@ const HomePage = () => {
     <div className='home-page'>
       <Menu
         project={project}
+        window={window}
         setWindow={setWindow}
       />
       <Window

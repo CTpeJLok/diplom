@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from task_manager.models import Task
-from project_manager.models import Project, ProjectUser
+from project_manager.models import ProjectUser
 
 
 def task_to_dict(task):
@@ -33,7 +33,7 @@ def task_to_dict(task):
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def get_tasks(request, project_id):
+def get_tasks(request, project_id, count=None):
     project_user = (
         ProjectUser.objects.select_related("project")
         .filter(
@@ -49,6 +49,9 @@ def get_tasks(request, project_id):
         )
 
     tasks = project_user.project.tasks.all()
+    if count:
+        tasks = tasks[:count]
+
     return Response(
         {"data": [task_to_dict(task) for task in tasks]},
         status=status.HTTP_200_OK,

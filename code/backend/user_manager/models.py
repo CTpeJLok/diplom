@@ -10,6 +10,7 @@ from .apps import UserManagerConfig as AppConfig
 
 if TYPE_CHECKING:
     from project_manager.models import ProjectUser
+    from task_manager.models import Task
 
 
 class CustomUserManager(UserManager):
@@ -80,6 +81,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     user_permissions = None
 
     project_users: models.QuerySet["ProjectUser"]
+    created_tasks: models.QuerySet["Task"]
+    updated_tasks: models.QuerySet["Task"]
 
     def __str__(self):
         return f"{self.username}"

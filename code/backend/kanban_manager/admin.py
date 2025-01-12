@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import KanbanTODO, KanbanINPROGRESS, KanbanDONE
+
+
+@admin.register(KanbanTODO, KanbanINPROGRESS, KanbanDONE)
+class KanbanAdmin(admin.ModelAdmin):
+    list_display = [
+        "project",
+        "name",
+    ]

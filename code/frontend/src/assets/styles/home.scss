@@ -6,12 +6,9 @@
   width: 100%;
   min-height: 100vh;
 
-  padding: 10px;
-
   display: flex;
   align-items: stretch;
   justify-content: center;
-  gap: 10px;
 
   button {
     padding: 10px 20px;
@@ -26,10 +23,12 @@
   }
 
   .menu {
+    padding: 10px;
+
     flex: 0 0 calc(20% - 5px);
     max-width: calc(20% - 5px);
 
-    height: calc(100vh - 20px);
+    height: 100vh;
 
     overflow: auto;
 
@@ -54,22 +53,86 @@
     }
 
     .tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
       .control {
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        p {
+          color: var(--black);
+          font-size: 16px;
+          font-weight: 600;
+        }
       }
 
       .content {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+
+        .task {
+          padding: 0 10px;
+
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          align-items: center;
+          gap: 10px;
+
+          .name {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            p {
+              color: var(--black);
+              font-size: 16px;
+              font-weight: 600;
+
+              &:nth-of-type(2) {
+                font-size: 14px;
+                font-weight: 400;
+              }
+            }
+          }
+
+          input {
+            &[type='checkbox'] {
+              width: 20px;
+              height: 20px;
+              border-radius: 5px;
+
+              margin-left: auto;
+            }
+          }
+        }
+      }
+    }
+
+    .kanban {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      p {
+        color: var(--black);
+        font-size: 16px;
+        font-weight: 600;
       }
     }
   }
 
   .window {
+    padding: 10px;
+
     flex: 0 0 calc(80% - 5px);
     max-width: calc(80% - 5px);
 
-    height: calc(100vh - 20px);
+    height: 100vh;
 
     overflow: auto;
 
@@ -95,6 +158,18 @@
         border: 1px solid var(--black);
         border-radius: 10px;
         outline: none;
+      }
+
+      select {
+        padding: 10px 20px;
+
+        border: 1px solid var(--black);
+        border-radius: 10px;
+        outline: none;
+
+        background: var(--white);
+
+        cursor: pointer;
       }
     }
 
@@ -162,6 +237,14 @@
 
         border-radius: 10px;
 
+        &:first-of-type {
+          background: var(--black);
+
+          p {
+            color: var(--white);
+          }
+        }
+
         p {
           font-size: 16px;
           font-weight: 600;
@@ -182,6 +265,70 @@
           height: 20px;
           border: 1px solid var(--black);
           border-radius: 5px;
+        }
+      }
+    }
+
+    .kanban {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      margin-top: 10px;
+
+      .kanban-table {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+
+        .kanban-column {
+          padding: 10px 20px;
+
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+
+          background: var(--white);
+          border-radius: 10px;
+
+          border: 1px solid var(--black);
+
+          .title {
+            color: var(--black);
+            font-size: 16px;
+            font-weight: 600;
+          }
+
+          .kanban-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .kanban-item {
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              align-items: center;
+              gap: 10px;
+
+              p {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--black);
+
+                &:nth-of-type(2) {
+                  font-size: 14px;
+                  font-weight: 400;
+                }
+              }
+
+              .actions {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 10px;
+              }
+            }
+          }
         }
       }
     }

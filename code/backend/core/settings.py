@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "confirm_manager",
     "project_manager",
     "task_manager",
+    "kanban_manager",
 ]
 
 MIDDLEWARE = [

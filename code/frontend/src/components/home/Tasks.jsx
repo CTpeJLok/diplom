@@ -157,9 +157,26 @@ const Tasks = ({ project }) => {
       </div>
 
       <div className='block tasks'>
-        <h2>Задачи</h2>
+        {tasks.length === 0 ? (
+          <h2>Нет задач</h2>
+        ) : (
+          <>
+            <h2>Задач: {tasks.length}</h2>
+            <div className='task'>
+              <div className='name'>
+                <p>Название</p>
+                <p>Описание</p>
+              </div>
 
-        {tasks.length === 0 && <p>Нет задач</p>}
+              <div className='dates'>
+                <p>Создано</p>
+                <p>Изменено</p>
+              </div>
+
+              <p>Выполнено</p>
+            </div>
+          </>
+        )}
 
         {tasks.map((task) => (
           <div

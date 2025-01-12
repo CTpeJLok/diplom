@@ -6,6 +6,7 @@ from user_manager.models import CustomUser
 
 if TYPE_CHECKING:
     from task_manager.models import Task
+    from kanban_manager.models import KanbanTODO, KanbanINPROGRESS, KanbanDONE
 
 
 class Project(models.Model):
@@ -19,6 +20,10 @@ class Project(models.Model):
 
     project_users: models.QuerySet["ProjectUser"]
     tasks: models.QuerySet["Task"]
+
+    kanban_kanbantodo: models.QuerySet["KanbanTODO"]
+    kanban_kanbaninprogress: models.QuerySet["KanbanINPROGRESS"]
+    kanban_kanbandone: models.QuerySet["KanbanDONE"]
 
     def __str__(self) -> str:
         return f"{self.name}"

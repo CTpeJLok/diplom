@@ -1,11 +1,9 @@
 .home-page {
   width: 100%;
   min-height: 100vh;
-  padding: 10px;
   display: flex;
   align-items: stretch;
   justify-content: center;
-  gap: 10px;
 }
 .home-page button {
   padding: 10px 20px;
@@ -17,9 +15,10 @@
   cursor: pointer;
 }
 .home-page .menu {
+  padding: 10px;
   flex: 0 0 calc(20% - 5px);
   max-width: calc(20% - 5px);
-  height: calc(100vh - 20px);
+  height: 100vh;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -38,15 +37,69 @@
   color: var(--black);
   margin-right: 10px;
 }
+.home-page .menu .tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .home-page .menu .tasks .control {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+.home-page .menu .tasks .control p {
+  color: var(--black);
+  font-size: 16px;
+  font-weight: 600;
+}
+.home-page .menu .tasks .content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+.home-page .menu .tasks .content .task {
+  padding: 0 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+.home-page .menu .tasks .content .task .name {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.home-page .menu .tasks .content .task .name p {
+  color: var(--black);
+  font-size: 16px;
+  font-weight: 600;
+}
+.home-page .menu .tasks .content .task .name p:nth-of-type(2) {
+  font-size: 14px;
+  font-weight: 400;
+}
+.home-page .menu .tasks .content .task input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  margin-left: auto;
+}
+.home-page .menu .kanban {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.home-page .menu .kanban p {
+  color: var(--black);
+  font-size: 16px;
+  font-weight: 600;
+}
 .home-page .window {
+  padding: 10px;
   flex: 0 0 calc(80% - 5px);
   max-width: calc(80% - 5px);
-  height: calc(100vh - 20px);
+  height: 100vh;
   overflow: auto;
 }
 .home-page .window .input-group {
@@ -66,6 +119,14 @@
   border: 1px solid var(--black);
   border-radius: 10px;
   outline: none;
+}
+.home-page .window .input-group select {
+  padding: 10px 20px;
+  border: 1px solid var(--black);
+  border-radius: 10px;
+  outline: none;
+  background: var(--white);
+  cursor: pointer;
 }
 .home-page .window .error {
   color: var(--red);
@@ -117,6 +178,12 @@
   gap: 10px;
   border-radius: 10px;
 }
+.home-page .window .tasks .task:first-of-type {
+  background: var(--black);
+}
+.home-page .window .tasks .task:first-of-type p {
+  color: var(--white);
+}
 .home-page .window .tasks .task p {
   font-size: 16px;
   font-weight: 600;
@@ -132,4 +199,55 @@
   height: 20px;
   border: 1px solid var(--black);
   border-radius: 5px;
+}
+.home-page .window .kanban {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+.home-page .window .kanban .kanban-table {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.home-page .window .kanban .kanban-table .kanban-column {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--white);
+  border-radius: 10px;
+  border: 1px solid var(--black);
+}
+.home-page .window .kanban .kanban-table .kanban-column .title {
+  color: var(--black);
+  font-size: 16px;
+  font-weight: 600;
+}
+.home-page .window .kanban .kanban-table .kanban-column .kanban-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.home-page .window .kanban .kanban-table .kanban-column .kanban-content .kanban-item {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+.home-page .window .kanban .kanban-table .kanban-column .kanban-content .kanban-item p {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--black);
+}
+.home-page .window .kanban .kanban-table .kanban-column .kanban-content .kanban-item p:nth-of-type(2) {
+  font-size: 14px;
+  font-weight: 400;
+}
+.home-page .window .kanban .kanban-table .kanban-column .kanban-content .kanban-item .actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
 }/*# sourceMappingURL=home.css.map */
