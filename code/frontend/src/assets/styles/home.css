@@ -1,0 +1,135 @@
+.home-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 10px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+}
+.home-page button {
+  padding: 10px 20px;
+  background: var(--black);
+  color: var(--white);
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.home-page .menu {
+  flex: 0 0 calc(20% - 5px);
+  max-width: calc(20% - 5px);
+  height: calc(100vh - 20px);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.home-page .menu .project-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.home-page .menu .project-selector .project-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--black);
+  margin-right: 10px;
+}
+.home-page .menu .tasks .control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.home-page .window {
+  flex: 0 0 calc(80% - 5px);
+  max-width: calc(80% - 5px);
+  height: calc(100vh - 20px);
+  overflow: auto;
+}
+.home-page .window .input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.home-page .window .input-group label {
+  margin-bottom: 5px;
+  color: var(--black);
+  font-size: 16px;
+  font-weight: 600;
+}
+.home-page .window .input-group input {
+  padding: 10px 20px;
+  border: 1px solid var(--black);
+  border-radius: 10px;
+  outline: none;
+}
+.home-page .window .error {
+  color: var(--red);
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+.home-page .window .select-project {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+.home-page .window .select-project .project {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.home-page .window .select-project .project:hover {
+  background: var(--black);
+}
+.home-page .window .select-project .project:hover p {
+  color: var(--white);
+}
+.home-page .window .select-project .project p {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--black);
+}
+.home-page .window .select-project .project p:nth-of-type(2) {
+  font-size: 14px;
+  font-weight: 400;
+}
+.home-page .window .tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+.home-page .window .tasks .task {
+  padding: 10px 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+}
+.home-page .window .tasks .task p {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--black);
+}
+.home-page .window .tasks .task p:nth-of-type(2) {
+  font-size: 14px;
+  font-weight: 400;
+}
+.home-page .window .tasks input[type=checkbox] {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--black);
+  border-radius: 5px;
+}/*# sourceMappingURL=home.css.map */
