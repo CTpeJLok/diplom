@@ -5,6 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Project, ProjectUser
 
+from utils.project import validate_project
+
 
 def project_to_dict(project):
     return {
@@ -34,19 +36,10 @@ def get_projects(request):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_project(request, project_id):
-    project_user = (
-        ProjectUser.objects.select_related("project")
-        .filter(
-            user=request.user,
-            project_id=project_id,
-        )
-        .first()
-    )
+    project_user, error = validate_project(request.user, project_id)
+
     if not project_user:
-        return Response(
-            {"detail": "You are not a member of this project"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        return error
 
     return Response(
         {"data": project_to_dict(project_user.project)}, status=status.HTTP_200_OK

@@ -4,7 +4,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from task_manager.models import Task
-from project_manager.models import ProjectUser
+
+from utils.project import validate_project
 
 
 def task_to_dict(task):
@@ -34,19 +35,10 @@ def task_to_dict(task):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_tasks(request, project_id, count=None):
-    project_user = (
-        ProjectUser.objects.select_related("project")
-        .filter(
-            user=request.user,
-            project_id=project_id,
-        )
-        .first()
-    )
+    project_user, error = validate_project(request.user, project_id)
+
     if not project_user:
-        return Response(
-            {"detail": "You are not a member of this project"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        return error
 
     tasks = project_user.project.tasks.all()
     if count:
@@ -69,19 +61,10 @@ def create_task(request, project_id):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    project_user = (
-        ProjectUser.objects.select_related("project")
-        .filter(
-            user=request.user,
-            project_id=project_id,
-        )
-        .first()
-    )
+    project_user, error = validate_project(request.user, project_id)
+
     if not project_user:
-        return Response(
-            {"detail": "You are not a member of this project"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        return error
 
     task = Task.objects.create(
         project=project_user.project,
@@ -101,19 +84,10 @@ def create_task(request, project_id):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def toggle_task(request, project_id, task_id):
-    project_user = (
-        ProjectUser.objects.select_related("project")
-        .filter(
-            user=request.user,
-            project_id=project_id,
-        )
-        .first()
-    )
+    project_user, error = validate_project(request.user, project_id)
+
     if not project_user:
-        return Response(
-            {"detail": "You are not a member of this project"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        return error
 
     task = Task.objects.filter(id=task_id).first()
     if not task:

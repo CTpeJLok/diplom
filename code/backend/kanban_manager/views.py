@@ -6,7 +6,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from .models import KanbanTODO, KanbanINPROGRESS, KanbanDONE
-from project_manager.models import ProjectUser
+
+from utils.project import validate_project
 
 
 def task_to_dict(task):
@@ -42,24 +43,6 @@ def get_kanban_dict(project_user):
             )
         ],
     }
-
-
-def validate_project(user, project_id):
-    project_user = (
-        ProjectUser.objects.select_related("project")
-        .filter(
-            user=user,
-            project_id=project_id,
-        )
-        .first()
-    )
-    if not project_user:
-        return None, Response(
-            {"detail": "You are not a member of this project"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    return result, None
 
 
 @api_view(["GET"])
@@ -164,7 +147,7 @@ def move_next(request, project_id, task_id, type):
             created_at=task.created_at,
             updated_at=task.updated_at,
             created_by=task.created_by,
-            updated_by=task.updated_by,
+            updated_by=request.user,
         )
         task.delete()
     elif type == 1:
@@ -175,7 +158,7 @@ def move_next(request, project_id, task_id, type):
             created_at=task.created_at,
             updated_at=task.updated_at,
             created_by=task.created_by,
-            updated_by=task.updated_by,
+            updated_by=request.user,
         )
         task.delete()
 
