@@ -5,20 +5,14 @@
 }
 
 #root {
-  --black: #000;
-  --white: #fff;
-
-  // --black: #fff;
-  // --white: #000;
+  --black: #545766;
+  --white: #f9f6ef;
 
   --green: #4bb543;
   --red: #ff0000;
 
   --half-black: rgba(0, 0, 0, 0.5);
   --half-white: rgba(255, 255, 255, 0.5);
-
-  // --half-black: rgba(255, 255, 255, 0.5);
-  // --half-white: rgba(0, 0, 0, 0.5);
 
   min-height: 100vh;
   width: 100%;
@@ -29,6 +23,30 @@
   justify-content: flex-start;
 
   background: var(--white);
+
+  &.dark {
+    --black: #ccc;
+    --white: #333;
+
+    --half-black: rgba(109, 109, 109, 0.5);
+    --half-white: rgba(48, 48, 48, 0.5);
+  }
+
+  &.pink {
+    --black: #93517d;
+    --white: #181920;
+
+    --half-black: rgba(109, 109, 109, 0.5);
+    --half-white: rgba(0, 0, 0, 0.5);
+  }
+
+  &.onedarkpro {
+    --black: #b8b1c0;
+    --white: #272b34;
+
+    --half-black: rgba(109, 109, 109, 0.5);
+    --half-white: rgba(0, 0, 0, 0.5);
+  }
 }
 
 .block {

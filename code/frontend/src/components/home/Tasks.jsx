@@ -4,6 +4,8 @@ import { AuthContext } from '@contexts/AuthContext'
 
 import API_URL from '@constants/API'
 
+import Checkbox from '@components/home/Checkbox'
+
 const Tasks = ({ project }) => {
   const { accessToken } = useContext(AuthContext)
 
@@ -92,6 +94,31 @@ const Tasks = ({ project }) => {
             return task
           })
         )
+      }
+
+      return [result.status === 200, data.detail]
+    } catch (e) {
+      return [false, e]
+    }
+  }
+
+  const deleteTask = async (id) => {
+    try {
+      const result = await fetch(
+        `${API_URL}/project/${project.id}/task/${id}/delete/`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+
+      const data = await result.json()
+
+      if (result.status === 200) {
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id))
       }
 
       return [result.status === 200, data.detail]
@@ -191,11 +218,15 @@ const Tasks = ({ project }) => {
               <p>{task.created_at}</p>
               <p>{task.updated_at}</p>
             </div>
-            <input
-              type='checkbox'
-              checked={task.is_done}
-              onChange={() => toggleTask(task.id)}
-            />
+
+            <div className='actions'>
+              <Checkbox
+                checked={task.is_done}
+                onChange={() => toggleTask(task.id)}
+              />
+
+              <button onClick={() => deleteTask(task.id)}>Удалить</button>
+            </div>
           </div>
         ))}
       </div>

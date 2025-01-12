@@ -4,6 +4,8 @@ import { AuthContext } from '@contexts/AuthContext'
 
 import API_URL from '@constants/API'
 
+import Checkbox from '@components/home/Checkbox'
+
 const ProjectTasks = ({ project, window, setWindow }) => {
   const { accessToken } = useContext(AuthContext)
 
@@ -62,11 +64,7 @@ const ProjectTasks = ({ project, window, setWindow }) => {
               <p>{task.name}</p>
               <p>{task.description}</p>
             </div>
-            <input
-              type='checkbox'
-              checked={task.is_done}
-              readOnly
-            />
+            <Checkbox checked={task.is_done} />
           </div>
         ))}
       </div>

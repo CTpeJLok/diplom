@@ -5,8 +5,8 @@
 }
 
 #root {
-  --black: #000;
-  --white: #fff;
+  --black: #545766;
+  --white: #f9f6ef;
   --green: #4bb543;
   --red: #ff0000;
   --half-black: rgba(0, 0, 0, 0.5);
@@ -18,6 +18,24 @@
   align-items: center;
   justify-content: flex-start;
   background: var(--white);
+}
+#root.dark {
+  --black: #ccc;
+  --white: #333;
+  --half-black: rgba(109, 109, 109, 0.5);
+  --half-white: rgba(48, 48, 48, 0.5);
+}
+#root.pink {
+  --black: #93517d;
+  --white: #181920;
+  --half-black: rgba(109, 109, 109, 0.5);
+  --half-white: rgba(0, 0, 0, 0.5);
+}
+#root.onedarkpro {
+  --black: #b8b1c0;
+  --white: #272b34;
+  --half-black: rgba(109, 109, 109, 0.5);
+  --half-white: rgba(0, 0, 0, 0.5);
 }
 
 .block {

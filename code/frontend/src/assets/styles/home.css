@@ -24,7 +24,7 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 20px;
 }
 .home-page .menu .project-selector {
   display: flex;
@@ -79,11 +79,9 @@
   font-size: 14px;
   font-weight: 400;
 }
-.home-page .menu .tasks .content .task input[type=checkbox] {
-  width: 20px;
-  height: 20px;
-  border-radius: 5px;
+.home-page .menu .tasks .content .task .checkbox {
   margin-left: auto;
+  cursor: auto;
 }
 .home-page .menu .kanban {
   display: flex;
@@ -91,6 +89,16 @@
   align-items: center;
 }
 .home-page .menu .kanban p {
+  color: var(--black);
+  font-size: 16px;
+  font-weight: 600;
+}
+.home-page .menu .dark-changer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.home-page .menu .dark-changer p {
   color: var(--black);
   font-size: 16px;
   font-weight: 600;
@@ -146,7 +154,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .home-page .window .select-project .project {
   padding: 10px 20px;
@@ -176,7 +184,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .home-page .window .tasks .task {
   padding: 10px 20px;
@@ -201,7 +209,12 @@
   font-size: 14px;
   font-weight: 400;
 }
-.home-page .window .tasks input[type=checkbox] {
+.home-page .window .tasks .actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.home-page .window .tasks .actions input[type=checkbox] {
   cursor: pointer;
   width: 20px;
   height: 20px;
@@ -212,7 +225,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .home-page .window .kanban .kanban-table {
   display: grid;
@@ -258,4 +271,21 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 10px;
+}
+.home-page .checkbox {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--black);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+}
+.home-page .checkbox div {
+  position: absolute;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  top: 2px;
+  left: 2px;
+  background: var(--black);
+  border-radius: 3px;
 }/*# sourceMappingURL=home.css.map */
