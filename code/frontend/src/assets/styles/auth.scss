@@ -25,6 +25,8 @@
 
       font-size: 32px;
       font-weight: 600;
+
+      color: var(--black);
     }
 
     .input-group {
@@ -55,6 +57,9 @@
         font-weight: 600;
 
         outline: none;
+
+        background: var(--white);
+        color: var(--black);
       }
     }
 

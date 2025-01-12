@@ -19,6 +19,9 @@ const AuthPage = () => {
 
   const [error, setError] = useState('')
 
+  const theme = localStorage.getItem('theme')
+  document.getElementById('root').classList.add(theme)
+
   return (
     <div className='auth-page'>
       <div className='auth-form block'>
