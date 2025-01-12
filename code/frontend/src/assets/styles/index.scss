@@ -7,11 +7,18 @@
 #root {
   --black: #000;
   --white: #fff;
+
+  // --black: #fff;
+  // --white: #000;
+
   --green: #4bb543;
   --red: #ff0000;
 
   --half-black: rgba(0, 0, 0, 0.5);
   --half-white: rgba(255, 255, 255, 0.5);
+
+  // --half-black: rgba(255, 255, 255, 0.5);
+  // --half-white: rgba(0, 0, 0, 0.5);
 
   min-height: 100vh;
   width: 100%;

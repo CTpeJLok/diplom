@@ -21,24 +21,8 @@ def task_to_dict(task):
     }
 
 
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def get_kanban(request, project_id):
-    project_user = (
-        ProjectUser.objects.select_related("project")
-        .filter(
-            user=request.user,
-            project_id=project_id,
-        )
-        .first()
-    )
-    if not project_user:
-        return Response(
-            {"detail": "You are not a member of this project"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    result = {
+def get_kanban_dict(project_user):
+    return {
         "todo": [
             task_to_dict(task)
             for task in project_user.project.kanban_kanbantodo.all().order_by(
@@ -59,7 +43,34 @@ def get_kanban(request, project_id):
         ],
     }
 
-    return Response({"data": result}, status=status.HTTP_200_OK)
+
+def validate_project(user, project_id):
+    project_user = (
+        ProjectUser.objects.select_related("project")
+        .filter(
+            user=user,
+            project_id=project_id,
+        )
+        .first()
+    )
+    if not project_user:
+        return None, Response(
+            {"detail": "You are not a member of this project"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    return result, None
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_kanban(request, project_id):
+    project_user, error = validate_project(request.user, project_id)
+
+    if not project_user:
+        return error
+
+    return Response({"data": get_kanban_dict(project_user)}, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
@@ -74,19 +85,10 @@ def create_kanban(request, project_id):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    project_user = (
-        ProjectUser.objects.select_related("project")
-        .filter(
-            user=request.user,
-            project_id=project_id,
-        )
-        .first()
-    )
+    project_user, error = validate_project(request.user, project_id)
+
     if not project_user:
-        return Response(
-            {"detail": "You are not a member of this project"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        return error
 
     if st == "TODO":
         KanbanTODO.objects.create(
@@ -110,29 +112,8 @@ def create_kanban(request, project_id):
             created_by=request.user,
         )
 
-    result = {
-        "todo": [
-            task_to_dict(task)
-            for task in project_user.project.kanban_kanbantodo.all().order_by(
-                "created_at"
-            )
-        ],
-        "inprogress": [
-            task_to_dict(task)
-            for task in project_user.project.kanban_kanbaninprogress.all().order_by(
-                "created_at"
-            )
-        ],
-        "done": [
-            task_to_dict(task)
-            for task in project_user.project.kanban_kanbandone.all().order_by(
-                "created_at"
-            )
-        ],
-    }
-
     return Response(
-        {"data": result},
+        {"data": get_kanban_dict(project_user)},
         status=status.HTTP_200_OK,
     )
 
@@ -140,19 +121,10 @@ def create_kanban(request, project_id):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def delete_kanban(request, project_id, task_id, type):
-    project_user = (
-        ProjectUser.objects.select_related("project")
-        .filter(
-            user=request.user,
-            project_id=project_id,
-        )
-        .first()
-    )
+    project_user, error = validate_project(request.user, project_id)
+
     if not project_user:
-        return Response(
-            {"detail": "You are not a member of this project"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        return error
 
     if type == 0:
         KanbanTODO.objects.filter(id=task_id).delete()
@@ -161,46 +133,16 @@ def delete_kanban(request, project_id, task_id, type):
     elif type == 2:
         KanbanDONE.objects.filter(id=task_id).delete()
 
-    result = {
-        "todo": [
-            task_to_dict(task)
-            for task in project_user.project.kanban_kanbantodo.all().order_by(
-                "created_at"
-            )
-        ],
-        "inprogress": [
-            task_to_dict(task)
-            for task in project_user.project.kanban_kanbaninprogress.all().order_by(
-                "created_at"
-            )
-        ],
-        "done": [
-            task_to_dict(task)
-            for task in project_user.project.kanban_kanbandone.all().order_by(
-                "created_at"
-            )
-        ],
-    }
-
-    return Response({"data": result}, status=status.HTTP_200_OK)
+    return Response({"data": get_kanban_dict(project_user)}, status=status.HTTP_200_OK)
 
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def move_next(request, project_id, task_id, type):
-    project_user = (
-        ProjectUser.objects.select_related("project")
-        .filter(
-            user=request.user,
-            project_id=project_id,
-        )
-        .first()
-    )
+    project_user, error = validate_project(request.user, project_id)
+
     if not project_user:
-        return Response(
-            {"detail": "You are not a member of this project"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        return error
 
     task = None
     if type == 0:
@@ -237,25 +179,4 @@ def move_next(request, project_id, task_id, type):
         )
         task.delete()
 
-    result = {
-        "todo": [
-            task_to_dict(task)
-            for task in project_user.project.kanban_kanbantodo.all().order_by(
-                "created_at"
-            )
-        ],
-        "inprogress": [
-            task_to_dict(task)
-            for task in project_user.project.kanban_kanbaninprogress.all().order_by(
-                "created_at"
-            )
-        ],
-        "done": [
-            task_to_dict(task)
-            for task in project_user.project.kanban_kanbandone.all().order_by(
-                "created_at"
-            )
-        ],
-    }
-
-    return Response({"data": result}, status=status.HTTP_200_OK)
+    return Response({"data": get_kanban_dict(project_user)}, status=status.HTTP_200_OK)
