@@ -50,6 +50,17 @@ services:
         limits:
           cpus: "0.5"
           memory: 100M
+  
+  adminer:
+    image: adminer
+    container_name: diplom_adminer
+    ports:
+      - "127.0.0.1:25203:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 100M
 
 volumes:
   diplom_pgdata:
