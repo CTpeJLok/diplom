@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: diplom_postgres
+    env_file:
+      - ./postgres.env
+    ports:
+      - "127.0.0.1:25200:5432"
+    volumes:
+      - diplom_pgdata:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+
+  backend:
+    build: ./backend
+    container_name: diplom_backend
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DEBUG=0
+    env_file:
+      - ./postgres.env
+      - ./backend/.env
+    ports:
+      - "127.0.0.1:25201:8000"
+    volumes:
+      - ./backend:/app
+      - ./content:/content
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 100M
+  
+  frontend:
+    build: ./frontend
+    container_name: diplom_frontend
+    command: npm run build
+    volumes:
+      - ./frontend/public:/app/public
+      - ./frontend/src:/app/src
+      - ./frontend/dist:/app/dist
+      - ./frontend/eslint.config.js:/app/eslint.config.js
+      - ./frontend/vite.config.js:/app/vite.config.js
+      - ./frontend/.env.development:/app/.env.development
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 100M
+
+volumes:
+  diplom_pgdata:
