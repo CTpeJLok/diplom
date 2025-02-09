@@ -18,7 +18,7 @@
 }
 .auth-page .auth-form h1 {
   margin-bottom: 20px;
-  font-size: 32px;
+  font-size: var(--big-font);
   font-weight: 600;
   color: var(--black);
 }
@@ -31,7 +31,7 @@
 .auth-page .auth-form .input-group label {
   margin-bottom: 5px;
   color: var(--black);
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
 }
 .auth-page .auth-form .input-group input {
@@ -39,7 +39,7 @@
   padding: 10px;
   border: 1px solid var(--black);
   border-radius: 5px;
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
   outline: none;
   background: var(--white);
@@ -49,7 +49,7 @@
   width: 100%;
   padding: 10px;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
   background: var(--green);
   color: var(--white);
@@ -74,6 +74,22 @@
 .auth-page .auth-form .error {
   color: var(--red);
   margin: 10px 0;
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
+}
+
+@media (max-width: 575px) {
+  #root {
+    --big-font: 24px;
+  }
+  .additional-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .additional-actions button {
+    width: 100% !important;
+  }
+  .additional-actions button:first-of-type {
+    order: 1;
+  }
 }/*# sourceMappingURL=auth.css.map */

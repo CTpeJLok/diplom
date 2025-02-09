@@ -42,6 +42,9 @@ const HomePage = () => {
 
     const projectID = localStorage.getItem('project')
     if (projectID) setMainProject(projectID)
+
+    const theme = localStorage.getItem('theme')
+    document.getElementById('root').classList.add(theme)
   }, [])
 
   return (

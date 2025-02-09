@@ -5,7 +5,7 @@ from django.db import models
 from user_manager.models import CustomUser
 
 if TYPE_CHECKING:
-    from task_manager.models import Task
+    from task_manager.models import Task, Note
     from kanban_manager.models import KanbanTODO, KanbanINPROGRESS, KanbanDONE
 
 
@@ -20,6 +20,7 @@ class Project(models.Model):
 
     project_users: models.QuerySet["ProjectUser"]
     tasks: models.QuerySet["Task"]
+    notes: models.QuerySet["Note"]
 
     kanban_kanbantodo: models.QuerySet["KanbanTODO"]
     kanban_kanbaninprogress: models.QuerySet["KanbanINPROGRESS"]

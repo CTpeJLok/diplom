@@ -80,7 +80,7 @@ def create_kanban(request, project_id):
             description=description,
             created_by=request.user,
         )
-    elif st == "INPROGRESS":
+    elif st == "IN_PROGRESS":
         KanbanINPROGRESS.objects.create(
             project=project_user.project,
             name=name,

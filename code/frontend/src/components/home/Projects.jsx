@@ -65,6 +65,12 @@ const Projects = ({ project, setProject }) => {
   }
 
   const selectProject = (id) => {
+    if (id === project?.id) {
+      setProject(() => {})
+      localStorage.removeItem('project')
+      return
+    }
+
     setProject(() => projects.find((i) => i.id === id))
     localStorage.setItem('project', id)
   }
@@ -130,14 +136,18 @@ const Projects = ({ project, setProject }) => {
 
       <div className='block select-project'>
         <h2>Выбрать проект</h2>
-        {projects.length === 0 && <p>Нет проектов</p>}
+        {projects.length === 0 && (
+          <div className='project'>
+            <p>Нет проектов</p>
+          </div>
+        )}
 
         {projects.map((i) => (
           <div
             key={i.id}
             className='project'
             onClick={() => selectProject(i.id)}>
-            <p>{(project.id === i.id ? '👉 ' : '') + i.name}</p>
+            <p>{(project?.id === i.id ? '👉 ' : '') + i.name}</p>
             <p>{i.description}</p>
           </div>
         ))}

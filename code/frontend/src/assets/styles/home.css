@@ -32,7 +32,7 @@
   align-items: center;
 }
 .home-page .menu .project-selector .project-name {
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
   color: var(--black);
   margin-right: 10px;
@@ -49,7 +49,7 @@
 }
 .home-page .menu .tasks .control p {
   color: var(--black);
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
 }
 .home-page .menu .tasks .content {
@@ -72,11 +72,11 @@
 }
 .home-page .menu .tasks .content .task .name p {
   color: var(--black);
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
 }
 .home-page .menu .tasks .content .task .name p:nth-of-type(2) {
-  font-size: 14px;
+  font-size: var(--second-font);
   font-weight: 400;
 }
 .home-page .menu .tasks .content .task .checkbox {
@@ -90,17 +90,22 @@
 }
 .home-page .menu .kanban p {
   color: var(--black);
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
 }
-.home-page .menu .dark-changer {
+.home-page .menu .theme-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.home-page .menu .theme-picker .theme-changer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.home-page .menu .dark-changer p {
+.home-page .menu .theme-picker .theme-changer p {
   color: var(--black);
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
 }
 .home-page .window {
@@ -112,7 +117,7 @@
 }
 .home-page .window h2 {
   color: var(--black);
-  font-size: 24px;
+  font-size: var(--header-font);
   font-weight: 600;
 }
 .home-page .window .input-group {
@@ -124,7 +129,7 @@
 .home-page .window .input-group label {
   margin-bottom: 5px;
   color: var(--black);
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
 }
 .home-page .window .input-group input {
@@ -147,7 +152,7 @@
 .home-page .window .error {
   color: var(--red);
   margin: 10px 0;
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
 }
 .home-page .window .select-project {
@@ -172,12 +177,12 @@
   color: var(--white);
 }
 .home-page .window .select-project .project p {
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
   color: var(--black);
 }
 .home-page .window .select-project .project p:nth-of-type(2) {
-  font-size: 14px;
+  font-size: var(--second-font);
   font-weight: 400;
 }
 .home-page .window .tasks {
@@ -201,12 +206,12 @@
   color: var(--white);
 }
 .home-page .window .tasks .task p {
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
   color: var(--black);
 }
 .home-page .window .tasks .task p:nth-of-type(2) {
-  font-size: 14px;
+  font-size: var(--second-font);
   font-weight: 400;
 }
 .home-page .window .tasks .actions {
@@ -243,7 +248,7 @@
 }
 .home-page .window .kanban .kanban-table .kanban-column .title {
   color: var(--black);
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
 }
 .home-page .window .kanban .kanban-table .kanban-column .kanban-content {
@@ -258,12 +263,12 @@
   gap: 10px;
 }
 .home-page .window .kanban .kanban-table .kanban-column .kanban-content .kanban-item p {
-  font-size: 16px;
+  font-size: var(--main-font);
   font-weight: 600;
   color: var(--black);
 }
 .home-page .window .kanban .kanban-table .kanban-column .kanban-content .kanban-item p:nth-of-type(2) {
-  font-size: 14px;
+  font-size: var(--second-font);
   font-weight: 400;
 }
 .home-page .window .kanban .kanban-table .kanban-column .kanban-content .kanban-item .actions {
@@ -271,6 +276,33 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 10px;
+}
+.home-page .window .note {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+.home-page .window .note h2 {
+  color: var(--black);
+  font-size: var(--big-font);
+  font-weight: 600;
+}
+.home-page .window .note textarea {
+  padding: 10px 20px;
+  width: 100%;
+  height: 500px;
+  border: 1px solid var(--black);
+  border-radius: 10px;
+  outline: none;
+  background: var(--white);
+  color: var(--black);
+  font-size: var(--main-font);
+}
+.home-page .window .note .buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 .home-page .checkbox {
   width: 20px;
@@ -288,4 +320,66 @@
   left: 2px;
   background: var(--black);
   border-radius: 3px;
+}
+
+@media (max-width: 1199px) {
+  .home-page .menu {
+    flex: 0 0 calc(30% - 5px);
+    max-width: calc(30% - 5px);
+  }
+  .home-page .window {
+    flex: 0 0 calc(70% - 5px);
+    max-width: calc(70% - 5px);
+  }
+}
+@media (max-width: 991px) {
+  .home-page .menu {
+    flex: 0 0 calc(40% - 5px);
+    max-width: calc(40% - 5px);
+  }
+  .home-page .window {
+    flex: 0 0 calc(60% - 5px);
+    max-width: calc(60% - 5px);
+  }
+}
+@media (max-width: 767px) {
+  #root {
+    --header-font: 20px;
+    --main-font: 14px;
+    --second-font: 12px;
+  }
+  .home-page {
+    flex-direction: column;
+  }
+  .home-page .menu {
+    flex: none;
+    max-width: 100%;
+    height: auto;
+  }
+  .home-page .window {
+    flex: none;
+    max-width: 100%;
+    height: auto;
+  }
+  .home-page .window .kanban .kanban-table {
+    overflow: auto;
+  }
+  .home-page .window .kanban .kanban-table::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .home-page .window .kanban .kanban-table::-webkit-scrollbar-track {
+    background: var(--white);
+    border-radius: 10px;
+  }
+  .home-page .window .kanban .kanban-table::-webkit-scrollbar-thumb {
+    background: var(--black);
+    border-radius: 10px;
+  }
+  .home-page .window .kanban .kanban-table::-webkit-scrollbar-thumb:hover {
+    background: var(--black);
+  }
+  .home-page .window .kanban .kanban-table .kanban-column .kanban-content .kanban-item {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }/*# sourceMappingURL=home.css.map */

@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "project_manager",
     "task_manager",
     "kanban_manager",
+    "note_manager",
 ]
 
 MIDDLEWARE = [

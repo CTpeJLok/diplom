@@ -7,4 +7,5 @@ urlpatterns = [
     path("api/project/", include("project_manager.urls")),
     path("api/project/<int:project_id>/task/", include("task_manager.urls")),
     path("api/project/<int:project_id>/kanban/", include("kanban_manager.urls")),
+    path("api/project/<int:project_id>/note/", include("note_manager.urls")),
 ]

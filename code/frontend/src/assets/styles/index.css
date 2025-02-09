@@ -11,6 +11,10 @@
   --red: #ff0000;
   --half-black: rgba(0, 0, 0, 0.5);
   --half-white: rgba(255, 255, 255, 0.5);
+  --big-font: 32px;
+  --header-font: 24px;
+  --main-font: 16px;
+  --second-font: 14px;
   min-height: 100vh;
   width: 100%;
   display: flex;

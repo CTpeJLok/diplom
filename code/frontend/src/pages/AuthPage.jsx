@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import Login from '@blocks/auth/Login'
 import Register from '@blocks/auth/Register'
@@ -19,8 +19,10 @@ const AuthPage = () => {
 
   const [error, setError] = useState('')
 
-  const theme = localStorage.getItem('theme')
-  document.getElementById('root').classList.add(theme)
+  useEffect(() => {
+    const theme = localStorage.getItem('theme')
+    document.getElementById('root').classList.add(theme)
+  }, [])
 
   return (
     <div className='auth-page'>

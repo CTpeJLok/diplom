@@ -6,7 +6,7 @@ const ProjectKanban = ({ window, setWindow }) => {
         onClick={() =>
           setWindow((i) => (i.type === 'KANBAN' ? {} : { type: 'KANBAN' }))
         }>
-        {window?.type === 'KANBAN' ? 'Закрыть' : 'Открыть'}
+        {window?.type === 'KANBAN' ? 'Скрыть' : 'Показать'}
       </button>
     </div>
   )

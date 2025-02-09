@@ -224,8 +224,6 @@ const Tasks = ({ project }) => {
                 checked={task.is_done}
                 onChange={() => toggleTask(task.id)}
               />
-
-              <button onClick={() => deleteTask(task.id)}>Удалить</button>
             </div>
           </div>
         ))}
