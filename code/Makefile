@@ -39,6 +39,13 @@ cs:
 	docker-compose exec backend python manage.py collectstatic --no-input
 
 
+build-frontend:
+	docker-compose exec frontend npm run build
+
+copy-build:
+	docker cp frontend:/app/dist ./frontend
+
+
 prod-restart: prod-down prod-up
 prod-restart-build: prod-down prod-up-build
 

@@ -1,6 +1,7 @@
 import Kanban from '@components/windows/Kanban'
 import Note from '@components/windows/Note'
 import NoteEdit from '@components/windows/NoteEdit'
+import NoteView from '@components/windows/NoteView'
 import Project from '@components/windows/Project'
 import ProjectEdit from '@components/windows/ProjectEdit'
 import Task from '@components/windows/Task'
@@ -10,6 +11,7 @@ import {
   WINDOW_KANBAN,
   WINDOW_NOTE,
   WINDOW_NOTE_EDIT,
+  WINDOW_NOTE_VIEW,
   WINDOW_PROJECT,
   WINDOW_PROJECT_EDIT,
   WINDOW_TASK,
@@ -62,6 +64,13 @@ const Window = ({
     ),
     [WINDOW_NOTE_EDIT]: (
       <NoteEdit
+        setActiveWindow={setActiveWindow}
+        windowData={windowData}
+        setWindowData={setWindowData}
+      />
+    ),
+    [WINDOW_NOTE_VIEW]: (
+      <NoteView
         setActiveWindow={setActiveWindow}
         windowData={windowData}
         setWindowData={setWindowData}

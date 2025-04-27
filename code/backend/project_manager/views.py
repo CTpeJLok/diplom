@@ -51,15 +51,18 @@ def get_project(request, project_id: int) -> Response:
 def create_project(request) -> Response:
     name = request.data.get("name")
     description = request.data.get("description")
-    if not name or not description:
+    if not name:
         return Response(
-            {"detail": "Missing name or description"},
+            {"detail": "Missing name"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
     result = {}
     with atomic():
-        project: Project = Project.objects.create(name=name, description=description)
+        project: Project = Project.objects.create(
+            name=name,
+            description=description,
+        )
         ProjectUser.objects.create(
             project=project,
             user=request.user,
@@ -79,19 +82,13 @@ def create_project(request) -> Response:
 @permission_classes([IsAuthenticated])
 @validate_project_user
 def update_project(request, project_id: int) -> Response:
+    project: Project = Project.objects.get(id=project_id)
+
     name = request.data.get("name")
     description = request.data.get("description")
-    if not name and not description:
-        return Response(
-            {"detail": "Missing name or description"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    project: Project = Project.objects.get(id=project_id)
 
     if name:
         project.name = name
-
     if description:
         project.description = description
 
@@ -129,6 +126,17 @@ def delete_project(request, project_id: int) -> Response:
 @permission_classes([IsAuthenticated])
 @validate_project_user
 def create_send_invite(request, project_id: int) -> Response:
+    project_user: ProjectUser = ProjectUser.objects.get(
+        project_id=project_id,
+        user=request.user,
+    )
+
+    if project_user.role != ProjectUser.ROLE_CREATOR:
+        return Response(
+            {"detail": "Only the creator can invite users"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
     email = request.data.get("email")
     if not email:
         return Response(

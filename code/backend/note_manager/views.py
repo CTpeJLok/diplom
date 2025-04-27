@@ -1,5 +1,5 @@
 from django.db.models import QuerySet
-from note_manager.serializers import NoteSerializer
+from note_manager.serializers import NoteBlockSerializer, NoteSerializer
 from project_manager.decorators import validate_project_user
 from rest_framework import status
 from rest_framework.decorators import api_view, parser_classes, permission_classes
@@ -31,9 +31,9 @@ def get_notes(request, project_id: int) -> Response:
 def create_note(request, project_id: int) -> Response:
     name = request.data.get("name")
     description = request.data.get("description")
-    if not name or not description:
+    if not name:
         return Response(
-            {"detail": "Missing name or description"},
+            {"detail": "Missing name"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -56,20 +56,15 @@ def create_note(request, project_id: int) -> Response:
 @permission_classes([IsAuthenticated])
 @validate_project_user
 def update_note(request, project_id: int, note_id: int) -> Response:
-    name = request.data.get("name")
-    description = request.data.get("description")
-    if not name and not description:
-        return Response(
-            {"detail": "Missing name or description"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
     note: Note | None = Note.objects.filter(id=note_id).first()
     if note is None:
         return Response(
             {"detail": "Note not found"},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+    name = request.data.get("name")
+    description = request.data.get("description")
 
     if name:
         note.name = name
@@ -103,7 +98,7 @@ def get_note_blocks(request, project_id: int, note_id: int) -> Response:
         note_id=note_id
     ).order_by("order")
 
-    result = [dict(NoteSerializer(i).data) for i in note_blocks]
+    result = [dict(NoteBlockSerializer(i).data) for i in note_blocks]
 
     return Response(
         {
@@ -132,7 +127,7 @@ def create_note_block(request, project_id: int, note_id: int) -> Response:
         order=last_index,
     )
 
-    result = dict(NoteSerializer(note_block).data)
+    result = dict(NoteBlockSerializer(note_block).data)
 
     return Response(
         {
@@ -148,20 +143,15 @@ def create_note_block(request, project_id: int, note_id: int) -> Response:
 def update_note_block(
     request, project_id: int, note_id: int, note_block_id: int
 ) -> Response:
-    text = request.data.get("text")
-    image = request.data.get("image")
-    if text is None and not image:
-        return Response(
-            {"detail": "Missing text or image"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
     note_block: NoteBlock | None = NoteBlock.objects.filter(id=note_block_id).first()
     if note_block is None:
         return Response(
             {"detail": "Note block not found"},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+    text = request.data.get("text")
+    image = request.data.get("image")
 
     if text is not None:
         note_block.text = text
@@ -170,7 +160,7 @@ def update_note_block(
 
     note_block.save()
 
-    result = dict(NoteSerializer(note_block).data)
+    result = dict(NoteBlockSerializer(note_block).data)
 
     return Response(
         {
@@ -248,7 +238,7 @@ def change_note_block_order(
     note_block.save()
 
     blocks = NoteBlock.objects.filter(note_id=note_id).order_by("order")
-    result = [dict(NoteSerializer(i).data) for i in blocks]
+    result = [dict(NoteBlockSerializer(i).data) for i in blocks]
     return Response(
         {
             "note_blocks": result,

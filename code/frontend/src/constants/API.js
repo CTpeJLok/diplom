@@ -17,3 +17,19 @@ export const GET_KANBAN_TASKS = API_URL + 'project/%project_id%/task/kanban/'
 export const CREATE_TASK = API_URL + 'project/%project_id%/task/create/'
 export const UPDATE_TASK = API_URL + 'project/%project_id%/task/update/'
 export const DELETE_TASK = API_URL + 'project/%project_id%/task/delete/'
+
+export const GET_NOTES = API_URL + 'project/%project_id%/note/'
+export const CREATE_NOTE = API_URL + 'project/%project_id%/note/create/'
+export const UPDATE_NOTE = API_URL + 'project/%project_id%/note/update/'
+export const DELETE_NOTE = API_URL + 'project/%project_id%/note/delete/'
+
+export const GET_NOTE_BLOCKS =
+  API_URL + 'project/%project_id%/note/blocks/%note_id%/'
+export const CREATE_NOTE_BLOCK =
+  API_URL + 'project/%project_id%/note/blocks/%note_id%/create/'
+export const UPDATE_NOTE_BLOCK =
+  API_URL + 'project/%project_id%/note/blocks/%note_id%/update/'
+export const DELETE_NOTE_BLOCK =
+  API_URL + 'project/%project_id%/note/blocks/%note_id%/delete/'
+export const ORDER_NOTE_BLOCK =
+  API_URL + 'project/%project_id%/note/blocks/%note_id%/order/'

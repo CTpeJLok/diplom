@@ -12,8 +12,10 @@ RUN npm install
 # Копирование исходного кода приложения
 COPY public .
 COPY src .
-COPY *.js .
+COPY *.js* .
 COPY *.html .
 COPY .env* .
+
+# RUN npm run build
 
 CMD [ "npm", "run", "dev" ]

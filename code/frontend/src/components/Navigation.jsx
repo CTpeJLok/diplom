@@ -3,6 +3,7 @@ import {
   WINDOW_KANBAN,
   WINDOW_NOTE,
   WINDOW_NOTE_EDIT,
+  WINDOW_NOTE_VIEW,
   WINDOW_PROJECT,
   WINDOW_PROJECT_EDIT,
   WINDOW_TASK,
@@ -88,6 +89,29 @@ const Navigation = ({
 
       {activeProject.id && (
         <>
+          <div className='kanban-block block'>
+            <div className='block-content'>
+              <p className='block-content'>Канбан</p>
+            </div>
+
+            <div className='block-action'>
+              <button
+                className='btn btn-primary'
+                onClick={() => {
+                  setActiveWindow((old) =>
+                    old === WINDOW_KANBAN ? WINDOW_CLEAR : WINDOW_KANBAN
+                  )
+                  setWindowData(() =>
+                    activeWindow === WINDOW_KANBAN
+                      ? {}
+                      : { activeProject, updateActiveProject }
+                  )
+                }}>
+                {activeWindow === WINDOW_KANBAN ? 'Скрыть' : 'Показать'}
+              </button>
+            </div>
+          </div>
+
           <div className='task-block block'>
             <div className='block-content'>
               <p className='block-label'>Задачи</p>
@@ -118,29 +142,6 @@ const Navigation = ({
             </div>
           </div>
 
-          <div className='kanban-block block'>
-            <div className='block-content'>
-              <p className='block-content'>Канбан</p>
-            </div>
-
-            <div className='block-action'>
-              <button
-                className='btn btn-primary'
-                onClick={() => {
-                  setActiveWindow((old) =>
-                    old === WINDOW_KANBAN ? WINDOW_CLEAR : WINDOW_KANBAN
-                  )
-                  setWindowData(() =>
-                    activeWindow === WINDOW_KANBAN
-                      ? {}
-                      : { activeProject, updateActiveProject }
-                  )
-                }}>
-                {activeWindow === WINDOW_KANBAN ? 'Скрыть' : 'Показать'}
-              </button>
-            </div>
-          </div>
-
           <div className='note-block block'>
             <div className='block-content'>
               <p className='block-label'>Записки</p>
@@ -154,17 +155,23 @@ const Navigation = ({
                 className='btn btn-primary'
                 onClick={() => {
                   setActiveWindow((old) =>
-                    [WINDOW_NOTE, WINDOW_NOTE_EDIT].includes(old)
+                    [WINDOW_NOTE, WINDOW_NOTE_EDIT, WINDOW_NOTE_VIEW].includes(
+                      old
+                    )
                       ? WINDOW_CLEAR
                       : WINDOW_NOTE
                   )
                   setWindowData(() =>
-                    [WINDOW_NOTE, WINDOW_NOTE_EDIT].includes(activeWindow)
+                    [WINDOW_NOTE, WINDOW_NOTE_EDIT, WINDOW_NOTE_VIEW].includes(
+                      activeWindow
+                    )
                       ? {}
                       : { activeProject, updateActiveProject }
                   )
                 }}>
-                {[WINDOW_NOTE, WINDOW_NOTE_EDIT].includes(activeWindow)
+                {[WINDOW_NOTE, WINDOW_NOTE_EDIT, WINDOW_NOTE_VIEW].includes(
+                  activeWindow
+                )
                   ? 'Скрыть'
                   : 'Показать'}
               </button>

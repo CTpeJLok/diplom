@@ -5,13 +5,21 @@ import {
   AUTH_RECOVERY,
   AUTH_REFRESH,
   AUTH_REGISTER,
+  CREATE_NOTE,
+  CREATE_NOTE_BLOCK,
   CREATE_PROJECT,
   CREATE_TASK,
+  DELETE_NOTE,
+  DELETE_NOTE_BLOCK,
   DELETE_PROJECT,
   DELETE_TASK,
   GET_KANBAN_TASKS,
+  GET_NOTE_BLOCKS,
+  GET_NOTES,
   GET_PROJECTS,
   GET_TASKS,
+  UPDATE_NOTE,
+  UPDATE_NOTE_BLOCK,
   UPDATE_PROJECT,
   UPDATE_TASK,
 } from '@constants/API'
@@ -26,6 +34,7 @@ const useApi = () => {
     Authorization: `Bearer ${token.access}`,
   }
 
+  // AUTH
   const login = async (authData) => {
     return await post(AUTH_LOGIN, authData)
   }
@@ -50,6 +59,7 @@ const useApi = () => {
     return await post(AUTH_RECOVERY, authData)
   }
 
+  // PROJECT
   const fetchProjects = async () => {
     return await get(GET_PROJECTS, headersWithToken)
   }
@@ -70,6 +80,7 @@ const useApi = () => {
     return await get(DELETE_PROJECT + id + '/', headersWithToken)
   }
 
+  // TASK
   const fetchTasks = async (projectID) => {
     return await get(
       GET_TASKS.replace('%project_id%', projectID),
@@ -80,13 +91,6 @@ const useApi = () => {
   const fetchKanbanTasks = async (projectID) => {
     return await get(
       GET_KANBAN_TASKS.replace('%project_id%', projectID),
-      headersWithToken
-    )
-  }
-
-  const fetchTask = async (projectID, id) => {
-    return await get(
-      GET_TASKS.replace('%project_id%', projectID) + id + '/',
       headersWithToken
     )
   }
@@ -114,24 +118,114 @@ const useApi = () => {
     )
   }
 
+  // NOTE
+  const fetchNotes = async (projectID) => {
+    return await get(
+      GET_NOTES.replace('%project_id%', projectID),
+      headersWithToken
+    )
+  }
+
+  const createNote = async (projectID, noteData) => {
+    return await post(
+      CREATE_NOTE.replace('%project_id%', projectID),
+      noteData,
+      headersWithToken
+    )
+  }
+
+  const updateNote = async (projectID, id, noteData) => {
+    return await post(
+      UPDATE_NOTE.replace('%project_id%', projectID) + id + '/',
+      noteData,
+      headersWithToken
+    )
+  }
+
+  const deleteNote = async (projectID, id) => {
+    return await get(
+      DELETE_NOTE.replace('%project_id%', projectID) + id + '/',
+      headersWithToken
+    )
+  }
+
+  // NOTE BLOCK
+  const fetchNoteBlocks = async (projectID, noteID) => {
+    return await get(
+      GET_NOTE_BLOCKS.replace('%project_id%', projectID).replace(
+        '%note_id%',
+        noteID
+      ),
+      headersWithToken
+    )
+  }
+
+  const createNoteBlock = async (projectID, noteID, noteBlockData) => {
+    return await postFormData(
+      CREATE_NOTE_BLOCK.replace('%project_id%', projectID).replace(
+        '%note_id%',
+        noteID
+      ),
+      noteBlockData,
+      headersWithToken
+    )
+  }
+
+  const updateNoteBlock = async (projectID, noteID, id, noteBlockData) => {
+    return await postFormData(
+      UPDATE_NOTE_BLOCK.replace('%project_id%', projectID).replace(
+        '%note_id%',
+        noteID
+      ) +
+        id +
+        '/',
+      noteBlockData,
+      headersWithToken
+    )
+  }
+
+  const deleteNoteBlock = async (projectID, noteID, id) => {
+    return await get(
+      DELETE_NOTE_BLOCK.replace('%project_id%', projectID).replace(
+        '%note_id%',
+        noteID
+      ) +
+        id +
+        '/',
+      headersWithToken
+    )
+  }
+
   return {
+    // auth
     login,
     register,
     logout,
     refresh,
     confirmCode,
     recoveryPassword,
+    // projects
     fetchProjects,
     fetchProject,
     createProject,
     updateProject,
     deleteProject,
+    // tasks
     fetchTasks,
     fetchKanbanTasks,
-    fetchTask,
     createTask,
     updateTask,
     deleteTask,
+    // notes
+    fetchNotes,
+    createNote,
+    updateNote,
+    deleteNote,
+    // note blocks
+    fetchNoteBlocks,
+    createNoteBlock,
+    updateNoteBlock,
+    deleteNoteBlock,
   }
 }
 

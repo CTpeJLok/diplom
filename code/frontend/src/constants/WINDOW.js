@@ -6,3 +6,4 @@ export const WINDOW_TASK_EDIT = 4
 export const WINDOW_KANBAN = 5
 export const WINDOW_NOTE = 6
 export const WINDOW_NOTE_EDIT = 7
+export const WINDOW_NOTE_VIEW = 8

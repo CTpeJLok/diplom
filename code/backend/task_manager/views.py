@@ -50,9 +50,9 @@ def create_task(request, project_id: int) -> Response:
     description = request.data.get("description")
     stage = request.data.get("stage")
     is_show_in_kanban = request.data.get("is_show_in_kanban")
-    if not name or not description:
+    if not name:
         return Response(
-            {"detail": "Missing name or description"},
+            {"detail": "Missing name"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -82,22 +82,17 @@ def create_task(request, project_id: int) -> Response:
 @permission_classes([IsAuthenticated])
 @validate_project_user
 def update_task(request, project_id: int, task_id: int) -> Response:
-    name = request.data.get("name")
-    description = request.data.get("description")
-    stage = request.data.get("stage")
-    is_show_in_kanban = request.data.get("is_show_in_kanban")
-    if not name and not description and not stage and is_show_in_kanban is None:
-        return Response(
-            {"detail": "Missing name or description or stage or is_show_in_kanban"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
     task: Task | None = Task.objects.filter(id=task_id).first()
     if task is None:
         return Response(
             {"detail": "Task not found"},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+    name = request.data.get("name")
+    description = request.data.get("description")
+    stage = request.data.get("stage")
+    is_show_in_kanban = request.data.get("is_show_in_kanban")
 
     if name:
         task.name = name
