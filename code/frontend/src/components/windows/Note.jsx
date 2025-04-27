@@ -1,7 +1,7 @@
 const Note = () => {
   return (
     <div className='window-note'>
-      <h3>Заметки</h3>
+      <h3>Записки</h3>
     </div>
   )
 }

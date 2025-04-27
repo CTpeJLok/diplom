@@ -1,6 +1,8 @@
 import {
   WINDOW_CLEAR,
   WINDOW_KANBAN,
+  WINDOW_NOTE,
+  WINDOW_NOTE_EDIT,
   WINDOW_PROJECT,
   WINDOW_PROJECT_EDIT,
   WINDOW_TASK,
@@ -104,7 +106,7 @@ const Navigation = ({
                       : WINDOW_TASK
                   )
                   setWindowData(() =>
-                    activeWindow === WINDOW_TASK
+                    [WINDOW_TASK, WINDOW_TASK_EDIT].includes(activeWindow)
                       ? {}
                       : { activeProject, setActiveProject, updateActiveProject }
                   )
@@ -135,6 +137,36 @@ const Navigation = ({
                   )
                 }}>
                 {activeWindow === WINDOW_KANBAN ? 'Скрыть' : 'Показать'}
+              </button>
+            </div>
+          </div>
+
+          <div className='note-block block'>
+            <div className='block-content'>
+              <p className='block-label'>Записки</p>
+              <p className='block-content'>
+                Всего: {activeProject.notes_count}
+              </p>
+            </div>
+
+            <div className='block-action'>
+              <button
+                className='btn btn-primary'
+                onClick={() => {
+                  setActiveWindow((old) =>
+                    [WINDOW_NOTE, WINDOW_NOTE_EDIT].includes(old)
+                      ? WINDOW_CLEAR
+                      : WINDOW_NOTE
+                  )
+                  setWindowData(() =>
+                    [WINDOW_NOTE, WINDOW_NOTE_EDIT].includes(activeWindow)
+                      ? {}
+                      : { activeProject, updateActiveProject }
+                  )
+                }}>
+                {[WINDOW_NOTE, WINDOW_NOTE_EDIT].includes(activeWindow)
+                  ? 'Скрыть'
+                  : 'Показать'}
               </button>
             </div>
           </div>
