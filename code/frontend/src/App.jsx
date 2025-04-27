@@ -1,34 +1,19 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-
 import { AuthProvider } from '@contexts/AuthContext'
-
-import PrivateRoute from '@components/PrivateRoute'
-
-import HomePage from '@pages/HomePage'
-import AuthPage from '@pages/AuthPage'
+import PageViewer from '@pages/PageViewer'
+import { useEffect } from 'react'
 
 function App() {
+  useEffect(() => {
+    document.cookie =
+      'sessionid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=None; Secure'
+    document.cookie =
+      'csrftoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=None; Secure'
+  }, [])
+
   return (
     <>
       <AuthProvider>
-        <Router>
-          <Routes>
-            <Route
-              path='/'
-              exact
-              element={
-                <PrivateRoute>
-                  <HomePage />
-                </PrivateRoute>
-              }
-            />
-
-            <Route
-              path='/auth'
-              element={<AuthPage />}
-            />
-          </Routes>
-        </Router>
+        <PageViewer />
       </AuthProvider>
     </>
   )

@@ -1,0 +1,8 @@
+export const WINDOW_CLEAR = 0
+export const WINDOW_PROJECT = 1
+export const WINDOW_PROJECT_EDIT = 2
+export const WINDOW_TASK = 3
+export const WINDOW_TASK_EDIT = 4
+export const WINDOW_KANBAN = 5
+export const WINDOW_NOTE = 6
+export const WINDOW_NOTE_EDIT = 7

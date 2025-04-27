@@ -1,69 +1,54 @@
+from uuid import UUID, uuid4
+
+from django.db.models import QuerySet
+from django.db.transaction import atomic
+from django.utils import timezone
+from email_manager.main import send_email_invite_code
+from project_manager.decorators import validate_project_user
+from project_manager.serializers import ProjectSerializer, ProjectUserSerializer
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from user_manager.models import CustomUser
 
 from .models import Project, ProjectUser
 
-from user_manager.models import CustomUser
 
-from utils.project import validate_project
-
-
-def project_to_dict(project):
-    return {
-        "id": project.id,
-        "name": project.name,
-        "description": project.description,
-    }
-
-
-def project_user_to_dict(project_user):
-    return {
-        "id": project_user.id,
-        "project": project_to_dict(project_user.project),
-        "user": {
-            "id": project_user.user.id,
-            "username": project_user.user.username,
-        },
-        "createdAt": project_user.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-        "updatedAt": project_user.updated_at.strftime("%Y-%m-%d %H:%M:%S"),
-    }
-
-
-@api_view(["GET"])
+@api_view()
 @permission_classes([IsAuthenticated])
-def get_projects(request):
-    project_users = ProjectUser.objects.select_related("project").filter(
-        user=request.user
+def get_projects(request) -> Response:
+    projects: QuerySet[Project] = Project.objects.filter(
+        project_users__user=request.user
     )
+
+    result = [dict(ProjectSerializer(i).data) for i in projects]
 
     return Response(
         {
-            "data": [
-                project_to_dict(project_user.project) for project_user in project_users
-            ]
-        },
-        status=status.HTTP_200_OK,
+            "projects": result,
+        }
     )
 
 
-@api_view(["GET"])
+@api_view()
 @permission_classes([IsAuthenticated])
-def get_project(request, project_id):
-    project_user, error = validate_project(request.user, project_id)
+@validate_project_user
+def get_project(request, project_id: int) -> Response:
+    project: Project = Project.objects.get(id=project_id)
 
-    if not project_user:
-        return error
+    result = dict(ProjectSerializer(project).data)
 
     return Response(
-        {"data": project_to_dict(project_user.project)}, status=status.HTTP_200_OK
+        {
+            "project": result,
+        }
     )
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def create_project(request):
+def create_project(request) -> Response:
     name = request.data.get("name")
     description = request.data.get("description")
     if not name or not description:
@@ -72,112 +57,231 @@ def create_project(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    if Project.objects.filter(name=name).exists():
-        return Response(
-            {"detail": "Project already exists"},
-            status=status.HTTP_400_BAD_REQUEST,
+    result = {}
+    with atomic():
+        project: Project = Project.objects.create(name=name, description=description)
+        ProjectUser.objects.create(
+            project=project,
+            user=request.user,
+            role=ProjectUser.ROLE_CREATOR,
         )
 
-    project = Project.objects.create(
-        name=name,
-        description=description,
-    )
-    ProjectUser.objects.create(
-        project=project,
-        user=request.user,
-    )
-
-    return Response({"data": project_to_dict(project)}, status=status.HTTP_200_OK)
-
-
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def get_team(request, project_id, count=None):
-    project_user, error = validate_project(request.user, project_id)
-
-    if not project_user:
-        return error
-
-    project_users = project_user.project.project_users.all()
-    if count:
-        project_users = project_users[:count]
+        result = dict(ProjectSerializer(project).data)
 
     return Response(
         {
-            "data": [
-                project_user_to_dict(project_user) for project_user in project_users
-            ]
-        },
-        status=status.HTTP_200_OK,
+            "project": result,
+        }
     )
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def create_team(request, project_id):
-    project_user, error = validate_project(request.user, project_id)
-
-    if not project_user:
-        return error
-
-    username = request.data.get("username")
-    if not username:
+@validate_project_user
+def update_project(request, project_id: int) -> Response:
+    name = request.data.get("name")
+    description = request.data.get("description")
+    if not name and not description:
         return Response(
-            {"detail": "Missing username"},
+            {"detail": "Missing name or description"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    user = CustomUser.objects.filter(username=username).first()
+    project: Project = Project.objects.get(id=project_id)
+
+    if name:
+        project.name = name
+
+    if description:
+        project.description = description
+
+    project.save()
+
+    result = dict(ProjectSerializer(project).data)
+
+    return Response(
+        {
+            "project": result,
+        }
+    )
+
+
+@api_view()
+@permission_classes([IsAuthenticated])
+@validate_project_user
+def delete_project(request, project_id: int) -> Response:
+    project_user: ProjectUser = ProjectUser.objects.get(
+        project_id=project_id,
+        user=request.user,
+    )
+
+    if project_user.role != ProjectUser.ROLE_CREATOR:
+        return Response(
+            {"detail": "Only the creator can delete the project"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    Project.objects.filter(id=project_id).delete()
+    return Response({})
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@validate_project_user
+def create_send_invite(request, project_id: int) -> Response:
+    email = request.data.get("email")
+    if not email:
+        return Response(
+            {"detail": "Missing email"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    user: CustomUser | None = CustomUser.objects.filter(email=email).first()
     if not user:
         return Response(
             {"detail": "User not found"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    if ProjectUser.objects.filter(project=project_user.project, user=user).exists():
+    if ProjectUser.objects.filter(project_id=project_id, user=user).exists():
         return Response(
-            {"detail": "User already exists"},
+            {"detail": "User is already a member of this project"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    ProjectUser.objects.create(project=project_user.project, user=user)
-
-    project_users = project_user.project.project_users.all()
-
-    return Response(
-        {
-            "data": [
-                project_user_to_dict(project_user) for project_user in project_users
-            ]
-        },
-        status=status.HTTP_200_OK,
+    project_user: ProjectUser = ProjectUser.objects.create(
+        project_id=project_id,
+        user=user,
+        role=ProjectUser.ROLE_ADMIN,
+        invite_code=uuid4(),
     )
+
+    send_email_invite_code(
+        user.username,
+        project_user.project.name,
+        project_id,
+        project_user.invite_code,
+    )
+
+    project_user.last_sent_at = timezone.now()
+    project_user.save()
+
+    return Response({"detail": "Invite sent"})
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def delete_team(request, project_id, team_id):
-    project_user, error = validate_project(request.user, project_id)
+@validate_project_user
+def resend_invite(request, project_id: int) -> Response:
+    email = request.data.get("email")
+    if not email:
+        return Response(
+            {"detail": "Missing email"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
-    if not project_user:
-        return error
-
-    to_delete = ProjectUser.objects.filter(id=team_id).first()
-    if not to_delete:
+    user: CustomUser | None = CustomUser.objects.filter(email=email).first()
+    if not user:
         return Response(
             {"detail": "User not found"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    to_delete.delete()
+    project_user: ProjectUser | None = ProjectUser.objects.filter(
+        project_id=project_id,
+        user=user,
+        invite_code__isnull=False,
+    ).first()
 
-    project_users = project_user.project.project_users.all()
+    if project_user is None:
+        return Response(
+            {"detail": "User is not a member of this project or has not been invited"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    if project_user.last_sent_at is not None:
+        if (timezone.now() - project_user.last_sent_at).total_seconds() < 60:
+            return Response(
+                {"detail": "Invite has already been sent"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    send_email_invite_code(
+        user.username,
+        project_user.project.name,
+        project_id,
+        project_user.invite_code,
+    )
+
+    project_user.last_sent_at = timezone.now()
+    project_user.save()
+
+    return Response({"detail": "Invite resent"})
+
+
+@api_view(["POST"])
+def accept_invite(request, project_id: int, invite_code: UUID) -> Response:
+    project_user: ProjectUser | None = ProjectUser.objects.filter(
+        project_id=project_id,
+        invite_code=invite_code,
+    ).first()
+
+    if project_user is None:
+        return Response(
+            {"detail": "Invite code is invalid"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    project_user.invite_code = None
+    project_user.save()
+
+    return Response({"detail": "Invite accepted"})
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@validate_project_user
+def reject_invite(request, project_id: int) -> Response:
+    email = request.data.get("email")
+    if not email:
+        return Response(
+            {"detail": "Missing email"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    user: CustomUser | None = CustomUser.objects.filter(email=email).first()
+    if not user:
+        return Response(
+            {"detail": "User not found"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    project_user: ProjectUser | None = ProjectUser.objects.filter(
+        project_id=project_id,
+        user=user,
+    ).first()
+
+    if project_user is None:
+        return Response(
+            {"detail": "User is not a member of this project"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    project_user.delete()
+
+    return Response({"detail": "Invite rejected"})
+
+
+@api_view()
+@permission_classes([IsAuthenticated])
+@validate_project_user
+def get_project_users(request, project_id: int) -> Response:
+    project: Project = Project.objects.get(id=project_id)
+
+    result = [dict(ProjectUserSerializer(i).data) for i in project.project_users.all()]
 
     return Response(
         {
-            "data": [
-                project_user_to_dict(project_user) for project_user in project_users
-            ]
-        },
-        status=status.HTTP_200_OK,
+            "project_users": result,
+        }
     )

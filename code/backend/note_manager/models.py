@@ -1,39 +1,35 @@
 from django.db import models
-
 from project_manager.models import Project
-from user_manager.models import CustomUser
 
 
 class Note(models.Model):
-    name = models.CharField(max_length=100)
     project = models.ForeignKey(
         to=Project,
         on_delete=models.CASCADE,
         related_name="notes",
         verbose_name="Проект",
     )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
-    created_by = models.ForeignKey(
-        to=CustomUser,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="created_notes",
-        verbose_name="Создал",
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Название",
     )
-    updated_by = models.ForeignKey(
-        to=CustomUser,
-        on_delete=models.SET_NULL,
+    description = models.TextField(
         null=True,
-        related_name="updated_notes",
-        verbose_name="Обновил",
+        blank=True,
+        verbose_name="Описание",
     )
 
-    content = models.TextField(
-        "Содержание",
-        null=True,
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата создания",
     )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Дата обновления",
+    )
+
+    blocks: models.QuerySet["NoteBlock"]
 
     def __str__(self):
         return f"{self.project} - {self.name}"
@@ -41,4 +37,53 @@ class Note(models.Model):
     class Meta:
         verbose_name = "Записка"
         verbose_name_plural = "Записки"
-        ordering = ["created_at"]
+        db_table = "note"
+
+
+class NoteBlock(models.Model):
+    TYPE_TEXT = "TEXT"
+    TYPE_IMAGE = "IMAGE"
+
+    note = models.ForeignKey(
+        to=Note,
+        on_delete=models.CASCADE,
+        related_name="blocks",
+        verbose_name="Записка",
+    )
+
+    block_type = models.CharField(
+        max_length=100,
+        default=TYPE_TEXT,
+        choices=(
+            (TYPE_TEXT, "Текст"),
+            (TYPE_IMAGE, "Изображение"),
+        ),
+        verbose_name="Тип блока",
+    )
+
+    text = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Текст",
+    )
+
+    image = models.ImageField(
+        null=True,
+        blank=True,
+        upload_to="note_blocks/",
+        verbose_name="Изображение",
+    )
+
+    order = models.PositiveIntegerField(
+        default=1,
+        verbose_name="Порядковый номер",
+    )
+
+    def __str__(self) -> str:
+        return f"{self.note}"
+
+    class Meta:
+        verbose_name = "Блок"
+        verbose_name_plural = "Блоки"
+        ordering = ["note", "order"]
+        db_table = "note_block"

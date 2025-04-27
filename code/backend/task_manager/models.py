@@ -1,36 +1,54 @@
 from django.db import models
-
 from project_manager.models import Project
-from user_manager.models import CustomUser
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
+    STAGE_TODO = "TODO"
+    STAGE_IN_PROGRESS = "IN_PROGRESS"
+    STAGE_DONE = "DONE"
+
     project = models.ForeignKey(
         to=Project,
         on_delete=models.CASCADE,
         related_name="tasks",
         verbose_name="Проект",
     )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_done = models.BooleanField(default=False)
-    done_at = models.DateTimeField(null=True, blank=True)
 
-    created_by = models.ForeignKey(
-        to=CustomUser,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="created_tasks",
-        verbose_name="Создал",
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Название",
     )
-    updated_by = models.ForeignKey(
-        to=CustomUser,
-        on_delete=models.SET_NULL,
+    description = models.TextField(verbose_name="Описание")
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата создания",
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Дата обновления",
+    )
+
+    stage = models.CharField(
+        max_length=100,
+        default=STAGE_TODO,
+        choices=(
+            (STAGE_TODO, "TODO"),
+            (STAGE_IN_PROGRESS, "IN_PROGRESS"),
+            (STAGE_DONE, "DONE"),
+        ),
+        verbose_name="Статус",
+    )
+    stage_at = models.DateTimeField(
+        auto_now_add=True,
         null=True,
-        related_name="updated_tasks",
-        verbose_name="Обновил",
+        blank=True,
+        verbose_name="Дата статуса",
+    )
+
+    is_show_in_kanban = models.BooleanField(
+        default=True,
+        verbose_name="Показывать в канбане",
     )
 
     def __str__(self):
@@ -39,4 +57,4 @@ class Task(models.Model):
     class Meta:
         verbose_name = "Задача"
         verbose_name_plural = "Задачи"
-        ordering = ["is_done", "created_at"]
+        db_table = "task"

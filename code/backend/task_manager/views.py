@@ -1,108 +1,127 @@
+from django.db.models import QuerySet
+from django.db.transaction import atomic
+from project_manager.decorators import validate_project_user
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from task_manager.serializers import TaskSerializer
 
-from task_manager.models import Task
-
-from utils.project import validate_project
-
-
-def task_to_dict(task):
-    return {
-        "id": task.id,
-        "name": task.name,
-        "description": task.description,
-        "created_at": task.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-        "updated_at": task.updated_at.strftime("%Y-%m-%d %H:%M:%S"),
-        "is_done": task.is_done,
-        "done_at": task.done_at,
-        "created_by": {
-            "id": task.created_by.id,
-            "username": task.created_by.username,
-        },
-        "updated_by": (
-            {
-                "id": task.updated_by.id,
-                "username": task.updated_by.username,
-            }
-            if task.updated_by
-            else None
-        ),
-    }
+from .models import Task
 
 
-@api_view(["GET"])
+@api_view()
 @permission_classes([IsAuthenticated])
-def get_tasks(request, project_id, count=None):
-    project_user, error = validate_project(request.user, project_id)
+@validate_project_user
+def get_tasks(request, project_id: int) -> Response:
+    tasks: QuerySet[Task] = Task.objects.filter(project_id=project_id)
 
-    if not project_user:
-        return error
-
-    tasks = project_user.project.tasks.all()
-    if count:
-        tasks = tasks[:count]
+    result = [dict(TaskSerializer(i).data) for i in tasks]
 
     return Response(
-        {"data": [task_to_dict(task) for task in tasks]},
-        status=status.HTTP_200_OK,
+        {
+            "tasks": result,
+        }
+    )
+
+
+@api_view()
+@permission_classes([IsAuthenticated])
+@validate_project_user
+def get_kanban_tasks(request, project_id: int) -> Response:
+    tasks: QuerySet[Task] = Task.objects.filter(
+        project_id=project_id, is_show_in_kanban=True
+    )
+
+    result = [dict(TaskSerializer(i).data) for i in tasks]
+
+    return Response(
+        {
+            "tasks": result,
+        }
     )
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def create_task(request, project_id):
+@validate_project_user
+def create_task(request, project_id: int) -> Response:
     name = request.data.get("name")
     description = request.data.get("description")
+    stage = request.data.get("stage")
+    is_show_in_kanban = request.data.get("is_show_in_kanban")
     if not name or not description:
         return Response(
             {"detail": "Missing name or description"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    project_user, error = validate_project(request.user, project_id)
-
-    if not project_user:
-        return error
-
-    task = Task.objects.create(
-        project=project_user.project,
+    task: Task = Task.objects.create(
+        project_id=project_id,
         name=name,
         description=description,
-        created_by=request.user,
     )
 
-    tasks = project_user.project.tasks.all()
+    if stage:
+        task.stage = stage
+    if is_show_in_kanban is not None:
+        task.is_show_in_kanban = is_show_in_kanban
+
+    task.save()
+
+    result = dict(TaskSerializer(task).data)
 
     return Response(
-        {"data": [task_to_dict(task) for task in tasks]},
-        status=status.HTTP_200_OK,
+        {
+            "task": result,
+        }
     )
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def toggle_task(request, project_id, task_id):
-    project_user, error = validate_project(request.user, project_id)
+@validate_project_user
+def update_task(request, project_id: int, task_id: int) -> Response:
+    name = request.data.get("name")
+    description = request.data.get("description")
+    stage = request.data.get("stage")
+    is_show_in_kanban = request.data.get("is_show_in_kanban")
+    if not name and not description and not stage and is_show_in_kanban is None:
+        return Response(
+            {"detail": "Missing name or description or stage or is_show_in_kanban"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
-    if not project_user:
-        return error
-
-    task = Task.objects.filter(id=task_id).first()
-    if not task:
+    task: Task | None = Task.objects.filter(id=task_id).first()
+    if task is None:
         return Response(
             {"detail": "Task not found"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    task.is_done = not task.is_done
-    task.updated_by = request.user
+    if name:
+        task.name = name
+    if description:
+        task.description = description
+    if stage:
+        task.stage = stage
+    if is_show_in_kanban is not None:
+        task.is_show_in_kanban = is_show_in_kanban
+
     task.save()
 
-    tasks = project_user.project.tasks.all()
+    result = dict(TaskSerializer(task).data)
 
     return Response(
-        {"data": [task_to_dict(task) for task in tasks]},
-        status=status.HTTP_200_OK,
+        {
+            "task": result,
+        }
     )
+
+
+@api_view()
+@permission_classes([IsAuthenticated])
+@validate_project_user
+def delete_task(request, project_id: int, task_id: int) -> Response:
+    Task.objects.filter(id=task_id).delete()
+    return Response({})

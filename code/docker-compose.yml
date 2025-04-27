@@ -1,11 +1,11 @@
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: diplom_postgres
+    container_name: dev_diplom_postgres
     env_file:
       - ./postgres.env
     ports:
-      - "127.0.0.1:25200:5432"
+      - "127.0.0.1:25000:5432"
     volumes:
       - diplom_pgdata:/var/lib/postgresql/data
     deploy:
@@ -16,7 +16,7 @@ services:
 
   backend:
     build: ./backend
-    container_name: diplom_backend
+    container_name: dev_diplom_backend
     command: python manage.py runserver 0.0.0.0:8000
     environment:
       - DEBUG=1
@@ -24,7 +24,7 @@ services:
       - ./postgres.env
       - ./backend/.env
     ports:
-      - "127.0.0.1:25201:8000"
+      - "127.0.0.1:25001:8000"
     volumes:
       - ./backend:/app
       - ./content:/content
@@ -32,36 +32,37 @@ services:
       resources:
         limits:
           cpus: "0.5"
-          memory: 100M
+          memory: 128M
   
   frontend:
     build: ./frontend
-    container_name: diplom_frontend
+    container_name: dev_diplom_frontend
     ports:
-      - "127.0.0.1:25202:5173"
+      - "127.0.0.1:25002:5173"
     volumes:
       - ./frontend/public:/app/public
       - ./frontend/src:/app/src
       - ./frontend/dist:/app/dist
       - ./frontend/eslint.config.js:/app/eslint.config.js
       - ./frontend/vite.config.js:/app/vite.config.js
-      - ./frontend/.env.development:/app/.env.development
     deploy:
       resources:
         limits:
-          cpus: "0.5"
-          memory: 100M
+          cpus: "0.4"
+          memory: 128M
   
   adminer:
     image: adminer
-    container_name: diplom_adminer
+    container_name: dev_diplom_adminer
     ports:
-      - "127.0.0.1:25203:8080"
+      - "127.0.0.1:25003:8080"
+    volumes:
+      - ./adminer/adminer.css:/var/www/html/adminer.css
     deploy:
       resources:
         limits:
           cpus: "0.1"
-          memory: 100M
+          memory: 128M
 
 volumes:
   diplom_pgdata:

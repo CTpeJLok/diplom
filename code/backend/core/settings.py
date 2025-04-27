@@ -1,6 +1,6 @@
 import os
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 PARENT_DIR = BASE_DIR.parent
@@ -26,7 +26,6 @@ INSTALLED_APPS = [
     "confirm_manager",
     "project_manager",
     "task_manager",
-    "kanban_manager",
     "note_manager",
 ]
 
@@ -131,7 +130,7 @@ AUTH_USER_MODEL = "user_manager.CustomUser"
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(
-        minutes=int(os.environ.get("ACCESS_TOKEN_LIFETIME", 5))
+        minutes=int(os.environ.get("ACCESS_TOKEN_LIFETIME", 60))
     ),
     "REFRESH_TOKEN_LIFETIME": timedelta(
         minutes=int(os.environ.get("REFRESH_TOKEN_LIFETIME", 1440))
@@ -159,8 +158,12 @@ SIMPLE_JWT = {
     "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
     "JTI_CLAIM": "jti",
     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
+    "SLIDING_TOKEN_LIFETIME": timedelta(
+        minutes=int(os.environ.get("ACCESS_TOKEN_LIFETIME", 60))
+    ),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(
+        minutes=int(os.environ.get("REFRESH_TOKEN_LIFETIME", 1440))
+    ),
     "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
     "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
     "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
@@ -168,3 +171,5 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+SESSION_COOKIE_HTTPONLY = False

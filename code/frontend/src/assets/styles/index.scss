@@ -1,65 +1,311 @@
 * {
-  margin: 0;
   padding: 0;
+  margin: 0;
   box-sizing: border-box;
 }
 
-#root {
-  --black: #545766;
-  --white: #f9f6ef;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
 
-  --green: #4bb543;
-  --red: #ff0000;
+html {
+  width: 100vw;
+  height: 100vh;
 
-  --half-black: rgba(0, 0, 0, 0.5);
-  --half-white: rgba(255, 255, 255, 0.5);
-
-  --big-font: 32px;
-  --header-font: 24px;
-  --main-font: 16px;
-  --second-font: 14px;
-
-  min-height: 100vh;
-  width: 100%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-
-  background: var(--white);
-
-  &.dark {
-    --black: #ccc;
-    --white: #333;
-
-    --half-black: rgba(109, 109, 109, 0.5);
-    --half-white: rgba(48, 48, 48, 0.5);
-  }
-
-  &.pink {
-    --black: #93517d;
-    --white: #181920;
-
-    --half-black: rgba(109, 109, 109, 0.5);
-    --half-white: rgba(0, 0, 0, 0.5);
-  }
-
-  &.onedarkpro {
-    --black: #b8b1c0;
-    --white: #272b34;
-
-    --half-black: rgba(109, 109, 109, 0.5);
-    --half-white: rgba(0, 0, 0, 0.5);
-  }
+  overflow: hidden;
 }
 
 .block {
   padding: 10px;
 
-  background: var(--white);
-  border: 1px solid var(--half-black);
+  background: #fff;
   border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
 
-  box-shadow: 0 0 8px var(--half-black), 0 0 4px var(--half-white);
+.page {
+  padding: 10px;
+  min-height: 100vh;
+}
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  overflow-x: auto;
+
+  .form {
+    @extend .block;
+
+    min-width: 300px;
+    max-width: 800px;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+
+    .form-buttons {
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button {
+      flex: 1;
+    }
+  }
+}
+
+.home {
+  --navigation-size: 270px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+
+  .navigation {
+    @extend .block;
+
+    flex: 1 1 var(--navigation-size);
+    max-width: var(--navigation-size);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+
+    overflow: auto;
+    max-height: calc(100vh - 20px);
+
+    .block {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+
+      position: relative;
+
+      &:has(.block-content .block-label) {
+        padding-top: 20px;
+      }
+
+      div.block-content {
+        .block-label {
+          position: absolute;
+          top: 5px;
+          left: 10px;
+
+          font-size: 12px;
+          color: #777;
+        }
+      }
+
+      .block-action {
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .window {
+    @extend .block;
+
+    flex: 1 1 calc(100% - var(--navigation-size) - 10px);
+    max-width: calc(100% - var(--navigation-size) - 10px);
+
+    overflow: auto;
+    max-height: calc(100vh - 20px);
+
+    .window-content {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+
+      & > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      &:has(.window-kanban) {
+        max-width: 100%;
+      }
+
+      .window-project {
+        .project {
+          @extend .block;
+
+          width: 100%;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          background: #eee;
+
+          &.active {
+            background: #fff;
+          }
+
+          .project-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            .project-name {
+              font-weight: bold;
+            }
+
+            .project-description {
+              font-size: 12px;
+              color: #777;
+            }
+          }
+
+          .project-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+        }
+      }
+
+      .window-project-edit {
+        .form-floating {
+          width: 100%;
+        }
+      }
+
+      .window-task {
+        .task {
+          @extend .block;
+
+          width: 100%;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          &.todo {
+            background: #faa;
+          }
+
+          &.in-progress {
+            background: #ffa;
+          }
+
+          &.done {
+            background: #afa;
+          }
+
+          .task-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            .task-name {
+              font-weight: bold;
+            }
+
+            .task-description {
+              font-size: 12px;
+              color: #777;
+            }
+          }
+
+          .task-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+        }
+      }
+
+      .window-task-edit {
+        .form-floating {
+          width: 100%;
+        }
+      }
+
+      .window-kanban {
+        .kanban {
+          width: 100%;
+
+          display: flex;
+          align-items: stretch;
+          justify-content: space-between;
+
+          & > div {
+            flex: 0 0 32%;
+            max-width: 32%;
+
+            @extend .block;
+
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+
+            h4 {
+              text-align: center;
+            }
+
+            .task {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+
+              .task-info {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                .task-name {
+                  font-weight: bold;
+                }
+
+                .task-description {
+                  font-size: 12px;
+                  color: #777;
+                }
+              }
+
+              .task-actions {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+              }
+            }
+          }
+
+          .kanban-todo {
+            background: #faa;
+          }
+
+          .kanban-in-progress {
+            background: #ffa;
+          }
+
+          .kanban-done {
+            background: #afa;
+          }
+        }
+      }
+    }
+  }
 }

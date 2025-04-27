@@ -8,9 +8,10 @@ class TaskAdmin(admin.ModelAdmin):
     list_display = [
         "project",
         "name",
-        "is_done",
+        "stage",
+        "is_show_in_kanban",
     ]
 
     list_filter = [
-        "is_done",
+        "stage",
     ]

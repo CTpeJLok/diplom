@@ -1,22 +1,19 @@
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.hashers import make_password
-
-from .apps import UserManagerConfig as AppConfig
 
 if TYPE_CHECKING:
     from project_manager.models import ProjectUser
-    from task_manager.models import Task
 
 
 class CustomUserManager(UserManager):
     def _create_user(self, username, password, **extra_fields):
         if not username:
-            raise ValueError("The given username must be set")
+            raise ValueError("The given email must be set")
 
         user = self.model(username=username, **extra_fields)
         user.password = make_password(password)
@@ -72,7 +69,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         blank=True,
     )
 
-    objects = CustomUserManager()
+    objects: CustomUserManager = CustomUserManager()
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []
@@ -81,8 +78,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     user_permissions = None
 
     project_users: models.QuerySet["ProjectUser"]
-    created_tasks: models.QuerySet["Task"]
-    updated_tasks: models.QuerySet["Task"]
 
     def __str__(self):
         return f"{self.username}"
@@ -90,6 +85,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
+        db_table = "user"
 
     # Name in admin panel
     def get_short_name(self):
