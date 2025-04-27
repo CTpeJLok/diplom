@@ -1,6 +1,6 @@
 import useApi from '@hooks/useApi'
 import useToken from '@hooks/useToken'
-import { createContext, useEffect } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
 const AuthContext = createContext()
 export default AuthContext
@@ -8,6 +8,8 @@ export default AuthContext
 export const AuthProvider = ({ children }) => {
   const token = useToken()
   const { refresh } = useApi()
+
+  const [isLoading, setIsLoading] = useState(true)
 
   const refreshToken = () => {
     console.log('refresh')
@@ -31,6 +33,8 @@ export const AuthProvider = ({ children }) => {
     console.log('check refresh')
     if (token.refresh) refreshToken()
 
+    setIsLoading(() => false)
+
     const interval = setInterval(() => {
       console.log('check refresh')
       if (token.refresh) refreshToken()
@@ -42,6 +46,8 @@ export const AuthProvider = ({ children }) => {
   const contextData = {}
 
   return (
-    <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextData}>
+      {isLoading ? null : children}
+    </AuthContext.Provider>
   )
 }
