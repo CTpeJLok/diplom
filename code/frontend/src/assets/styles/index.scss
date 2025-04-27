@@ -307,6 +307,45 @@ html {
         }
       }
 
+      .window-project-user {
+        .project-user {
+          @extend .block;
+
+          width: 100%;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .project-user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            .project-user-name {
+              font-weight: bold;
+            }
+
+            .project-user-description {
+              font-size: 12px;
+              color: #777;
+            }
+          }
+
+          .project-user-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+        }
+      }
+
+      .window-project-user-edit {
+        .form-floating {
+          width: 100%;
+        }
+      }
+
       .window-note {
         .note {
           @extend .block;

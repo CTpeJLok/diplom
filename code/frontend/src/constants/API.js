@@ -12,6 +12,13 @@ export const CREATE_PROJECT = API_URL + 'project/create/'
 export const UPDATE_PROJECT = API_URL + 'project/update/'
 export const DELETE_PROJECT = API_URL + 'project/delete/'
 
+export const GET_PROJECT_USERS = API_URL + 'project/users/'
+export const INVITE_PROJECT_USER = API_URL + 'project/invite/'
+export const REJECT_INVITE_PROJECT_USER =
+  API_URL + 'project/invite/%project_id%/reject/'
+export const RESEND_INVITE_PROJECT_USER =
+  API_URL + 'project/invite/%project_id%/resend/'
+
 export const GET_TASKS = API_URL + 'project/%project_id%/task/'
 export const GET_KANBAN_TASKS = API_URL + 'project/%project_id%/task/kanban/'
 export const CREATE_TASK = API_URL + 'project/%project_id%/task/create/'

@@ -7,8 +7,7 @@ import remarkGfm from 'remark-gfm'
 import { COMPONENTS } from '@constants/MARKDOWN'
 import { WINDOW_NOTE } from '@constants/WINDOW'
 
-// import 'highlight.js/styles/base16/github.css'
-import '@styles/github.css'
+import 'highlight.js/styles/base16/github.css'
 
 const NoteView = ({ setActiveWindow, windowData, setWindowData }) => {
   const { fetchNoteBlocks } = useApi()

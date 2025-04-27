@@ -3,6 +3,11 @@ from user_manager.models import CustomUser
 
 
 class UserSerializer(serializers.ModelSerializer):
+    email = serializers.SerializerMethodField()
+
+    def get_email(self, obj: CustomUser) -> str:
+        return obj.username
+
     class Meta:
         model = CustomUser
-        fields = ["pk", "username"]
+        fields = ["pk", "email"]

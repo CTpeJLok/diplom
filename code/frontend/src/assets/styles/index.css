@@ -20,7 +20,7 @@ html {
   overflow: hidden;
 }
 
-.block, .home .window .window-content .window-note .note, .home .window .window-content .window-kanban .kanban > div, .home .window .window-content .window-task .task, .home .window .window-content .window-project .project, .home .window, .home .navigation, .auth .form {
+.block, .home .window .window-content .window-note .note, .home .window .window-content .window-project-user .project-user, .home .window .window-content .window-kanban .kanban > div, .home .window .window-content .window-task .task, .home .window .window-content .window-project .project, .home .window, .home .navigation, .auth .form {
   padding: 10px;
   background: #fff;
   border-radius: 10px;
@@ -75,24 +75,24 @@ html {
   overflow: auto;
   max-height: calc(100vh - 20px);
 }
-.home .navigation .block, .home .navigation .window .window-content .window-note .note, .home .window .window-content .window-note .navigation .note, .home .navigation .window .window-content .window-kanban .kanban > div, .home .window .window-content .window-kanban .navigation .kanban > div, .home .navigation .window .window-content .window-task .task, .home .window .window-content .window-task .navigation .task, .home .navigation .window .window-content .window-project .project, .home .window .window-content .window-project .navigation .project, .home .navigation .window, .home .navigation .auth .form, .auth .home .navigation .form, .home .navigation .navigation {
+.home .navigation .block, .home .navigation .window .window-content .window-note .note, .home .window .window-content .window-note .navigation .note, .home .navigation .window .window-content .window-project-user .project-user, .home .window .window-content .window-project-user .navigation .project-user, .home .navigation .window .window-content .window-kanban .kanban > div, .home .window .window-content .window-kanban .navigation .kanban > div, .home .navigation .window .window-content .window-task .task, .home .window .window-content .window-task .navigation .task, .home .navigation .window .window-content .window-project .project, .home .window .window-content .window-project .navigation .project, .home .navigation .window, .home .navigation .auth .form, .auth .home .navigation .form, .home .navigation .navigation {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
   position: relative;
 }
-.home .navigation .block:has(.block-content .block-label), .home .navigation .window .window-content .window-note .note:has(.block-content .block-label), .home .window .window-content .window-note .navigation .note:has(.block-content .block-label), .home .navigation .window .window-content .window-kanban .kanban > div:has(.block-content .block-label), .home .window .window-content .window-kanban .navigation .kanban > div:has(.block-content .block-label), .home .navigation .window .window-content .window-task .task:has(.block-content .block-label), .home .window .window-content .window-task .navigation .task:has(.block-content .block-label), .home .navigation .window .window-content .window-project .project:has(.block-content .block-label), .home .window .window-content .window-project .navigation .project:has(.block-content .block-label), .home .navigation .window:has(.block-content .block-label), .home .navigation .auth .form:has(.block-content .block-label), .auth .home .navigation .form:has(.block-content .block-label), .home .navigation .navigation:has(.block-content .block-label) {
+.home .navigation .block:has(.block-content .block-label), .home .navigation .window .window-content .window-note .note:has(.block-content .block-label), .home .window .window-content .window-note .navigation .note:has(.block-content .block-label), .home .navigation .window .window-content .window-project-user .project-user:has(.block-content .block-label), .home .window .window-content .window-project-user .navigation .project-user:has(.block-content .block-label), .home .navigation .window .window-content .window-kanban .kanban > div:has(.block-content .block-label), .home .window .window-content .window-kanban .navigation .kanban > div:has(.block-content .block-label), .home .navigation .window .window-content .window-task .task:has(.block-content .block-label), .home .window .window-content .window-task .navigation .task:has(.block-content .block-label), .home .navigation .window .window-content .window-project .project:has(.block-content .block-label), .home .window .window-content .window-project .navigation .project:has(.block-content .block-label), .home .navigation .window:has(.block-content .block-label), .home .navigation .auth .form:has(.block-content .block-label), .auth .home .navigation .form:has(.block-content .block-label), .home .navigation .navigation:has(.block-content .block-label) {
   padding-top: 20px;
 }
-.home .navigation .block div.block-content .block-label, .home .window .window-content .window-note .navigation .note div.block-content .block-label, .home .window .window-content .window-kanban .navigation .kanban > div div.block-content .block-label, .home .window .window-content .window-task .navigation .task div.block-content .block-label, .home .window .window-content .window-project .navigation .project div.block-content .block-label, .home .navigation .window div.block-content .block-label, .home .navigation .auth .form div.block-content .block-label, .auth .home .navigation .form div.block-content .block-label, .home .navigation .navigation div.block-content .block-label {
+.home .navigation .block div.block-content .block-label, .home .window .window-content .window-note .navigation .note div.block-content .block-label, .home .window .window-content .window-project-user .navigation .project-user div.block-content .block-label, .home .window .window-content .window-kanban .navigation .kanban > div div.block-content .block-label, .home .window .window-content .window-task .navigation .task div.block-content .block-label, .home .window .window-content .window-project .navigation .project div.block-content .block-label, .home .navigation .window div.block-content .block-label, .home .navigation .auth .form div.block-content .block-label, .auth .home .navigation .form div.block-content .block-label, .home .navigation .navigation div.block-content .block-label {
   position: absolute;
   top: 5px;
   left: 10px;
   font-size: 12px;
   color: #777;
 }
-.home .navigation .block .block-action button, .home .navigation .window .window-content .window-note .note .block-action button, .home .window .window-content .window-note .navigation .note .block-action button, .home .navigation .window .window-content .window-kanban .kanban > div .block-action button, .home .window .window-content .window-kanban .navigation .kanban > div .block-action button, .home .navigation .window .window-content .window-task .task .block-action button, .home .window .window-content .window-task .navigation .task .block-action button, .home .navigation .window .window-content .window-project .project .block-action button, .home .window .window-content .window-project .navigation .project .block-action button, .home .navigation .window .block-action button, .home .navigation .auth .form .block-action button, .auth .home .navigation .form .block-action button, .home .navigation .navigation .block-action button {
+.home .navigation .block .block-action button, .home .navigation .window .window-content .window-note .note .block-action button, .home .window .window-content .window-note .navigation .note .block-action button, .home .navigation .window .window-content .window-project-user .project-user .block-action button, .home .window .window-content .window-project-user .navigation .project-user .block-action button, .home .navigation .window .window-content .window-kanban .kanban > div .block-action button, .home .window .window-content .window-kanban .navigation .kanban > div .block-action button, .home .navigation .window .window-content .window-task .task .block-action button, .home .window .window-content .window-task .navigation .task .block-action button, .home .navigation .window .window-content .window-project .project .block-action button, .home .window .window-content .window-project .navigation .project .block-action button, .home .navigation .window .block-action button, .home .navigation .auth .form .block-action button, .auth .home .navigation .form .block-action button, .home .navigation .navigation .block-action button {
   width: 100%;
 }
 .home .window {
@@ -227,6 +227,32 @@ html {
 }
 .home .window .window-content .window-kanban .kanban .kanban-done {
   background: #afa;
+}
+.home .window .window-content .window-project-user .project-user {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.home .window .window-content .window-project-user .project-user .project-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.home .window .window-content .window-project-user .project-user .project-user-info .project-user-name {
+  font-weight: bold;
+}
+.home .window .window-content .window-project-user .project-user .project-user-info .project-user-description {
+  font-size: 12px;
+  color: #777;
+}
+.home .window .window-content .window-project-user .project-user .project-user-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.home .window .window-content .window-project-user-edit .form-floating {
+  width: 100%;
 }
 .home .window .window-content .window-note .note {
   width: 100%;

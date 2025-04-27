@@ -43,8 +43,8 @@ class Project(models.Model):
 
 
 class ProjectUser(models.Model):
-    ROLE_CREATOR = "creator"
-    ROLE_ADMIN = "admin"
+    ROLE_CREATOR = "CREATOR"
+    ROLE_ADMIN = "ADMIN"
 
     project = models.ForeignKey(
         to=Project,

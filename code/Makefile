@@ -43,7 +43,8 @@ build-frontend:
 	docker-compose exec frontend npm run build
 
 copy-build:
-	docker cp frontend:/app/dist ./frontend
+	rm -rf ./frontend/dist
+	docker cp dev_diplom_frontend:/app/dist ./frontend
 
 
 prod-restart: prod-down prod-up

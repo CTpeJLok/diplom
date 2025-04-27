@@ -35,13 +35,14 @@ def send_email_password_recovery_code(email, code):
     )
 
 
-def send_email_invite_code(email, project_name, project_id, code):
+def send_email_invite_code(email, project_name, project_id, user_id, code):
     send_code(
         "email_manager/invite_code.html",
         "Приглашение в проект",
         email,
         code=code,
         project_id=project_id,
+        user_id=user_id,
         project_name=project_name,
     )
 

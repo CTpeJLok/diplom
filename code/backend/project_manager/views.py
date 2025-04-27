@@ -2,6 +2,8 @@ from uuid import UUID, uuid4
 
 from django.db.models import QuerySet
 from django.db.transaction import atomic
+from django.http import HttpResponsePermanentRedirect, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.utils import timezone
 from email_manager.main import send_email_invite_code
 from project_manager.decorators import validate_project_user
@@ -144,7 +146,7 @@ def create_send_invite(request, project_id: int) -> Response:
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    user: CustomUser | None = CustomUser.objects.filter(email=email).first()
+    user: CustomUser | None = CustomUser.objects.filter(username=email).first()
     if not user:
         return Response(
             {"detail": "User not found"},
@@ -157,38 +159,35 @@ def create_send_invite(request, project_id: int) -> Response:
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    project_user: ProjectUser = ProjectUser.objects.create(
-        project_id=project_id,
-        user=user,
-        role=ProjectUser.ROLE_ADMIN,
-        invite_code=uuid4(),
-    )
+    with atomic():
+        project_user: ProjectUser = ProjectUser.objects.create(
+            project_id=project_id,
+            user=user,
+            role=ProjectUser.ROLE_ADMIN,
+            invite_code=uuid4(),
+        )
 
-    send_email_invite_code(
-        user.username,
-        project_user.project.name,
-        project_id,
-        project_user.invite_code,
-    )
+        send_email_invite_code(
+            user.username,
+            project_user.project.name,
+            project_id,
+            user.pk,
+            project_user.invite_code,
+        )
 
-    project_user.last_sent_at = timezone.now()
-    project_user.save()
+        project_user.last_sent_at = timezone.now()
+        project_user.save()
 
     return Response({"detail": "Invite sent"})
 
 
-@api_view(["POST"])
+@api_view()
 @permission_classes([IsAuthenticated])
 @validate_project_user
-def resend_invite(request, project_id: int) -> Response:
-    email = request.data.get("email")
-    if not email:
-        return Response(
-            {"detail": "Missing email"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    user: CustomUser | None = CustomUser.objects.filter(email=email).first()
+def resend_invite(
+    request, project_id: int, user_id: int, invite_code: UUID
+) -> Response:
+    user: CustomUser | None = CustomUser.objects.filter(pk=user_id).first()
     if not user:
         return Response(
             {"detail": "User not found"},
@@ -218,6 +217,7 @@ def resend_invite(request, project_id: int) -> Response:
         user.username,
         project_user.project.name,
         project_id,
+        user_id,
         project_user.invite_code,
     )
 
@@ -227,10 +227,20 @@ def resend_invite(request, project_id: int) -> Response:
     return Response({"detail": "Invite resent"})
 
 
-@api_view(["POST"])
-def accept_invite(request, project_id: int, invite_code: UUID) -> Response:
+@api_view()
+def accept_invite(
+    request, project_id: int, user_id: int, invite_code: UUID
+) -> Response | HttpResponseRedirect:
+    user: CustomUser | None = CustomUser.objects.filter(pk=user_id).first()
+    if not user:
+        return Response(
+            {"detail": "User not found"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
     project_user: ProjectUser | None = ProjectUser.objects.filter(
         project_id=project_id,
+        user=user,
         invite_code=invite_code,
     ).first()
 
@@ -243,21 +253,16 @@ def accept_invite(request, project_id: int, invite_code: UUID) -> Response:
     project_user.invite_code = None
     project_user.save()
 
-    return Response({"detail": "Invite accepted"})
+    return redirect("/", permanent=False)
+
+    # return Response({"detail": "Invite accepted"})
 
 
-@api_view(["POST"])
+@api_view()
 @permission_classes([IsAuthenticated])
 @validate_project_user
-def reject_invite(request, project_id: int) -> Response:
-    email = request.data.get("email")
-    if not email:
-        return Response(
-            {"detail": "Missing email"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    user: CustomUser | None = CustomUser.objects.filter(email=email).first()
+def reject_invite(request, project_id: int, user_id: int) -> Response:
+    user: CustomUser | None = CustomUser.objects.filter(pk=user_id).first()
     if not user:
         return Response(
             {"detail": "User not found"},

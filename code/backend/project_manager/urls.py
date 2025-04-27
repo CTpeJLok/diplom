@@ -10,7 +10,16 @@ urlpatterns = [
     path("delete/<int:project_id>/", views.delete_project),
     path("users/<int:project_id>/", views.get_project_users),
     path("invite/<int:project_id>/", views.create_send_invite),
-    path("<int:project_id>/invite/<uuid:invite_code>/accept/", views.accept_invite),
-    path("<int:project_id>/invite/<uuid:invite_code>/reject/", views.reject_invite),
-    path("<int:project_id>/invite/<uuid:invite_code>/resend/", views.resend_invite),
+    path(
+        "invite/<int:project_id>/accept/<int:user_id>/<uuid:invite_code>/",
+        views.accept_invite,
+    ),
+    path(
+        "invite/<int:project_id>/reject/<int:user_id>/",
+        views.reject_invite,
+    ),
+    path(
+        "invite/<int:project_id>/resend/<int:user_id>/<uuid:invite_code>/",
+        views.resend_invite,
+    ),
 ]

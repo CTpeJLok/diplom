@@ -8,12 +8,16 @@ from .models import Project, ProjectUser
 class ProjectSerializer(serializers.ModelSerializer):
     in_progress_tasks_count = serializers.SerializerMethodField()
     notes_count = serializers.SerializerMethodField()
+    users_count = serializers.SerializerMethodField()
 
     def get_in_progress_tasks_count(self, obj: Project) -> int:
         return obj.tasks.filter(stage=Task.STAGE_IN_PROGRESS).count()
 
     def get_notes_count(self, obj: Project) -> int:
         return obj.notes.count()
+
+    def get_users_count(self, obj: Project) -> int:
+        return obj.project_users.count()
 
     class Meta:
         model = Project

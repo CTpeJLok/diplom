@@ -6,6 +6,7 @@ import {
   WINDOW_NOTE_VIEW,
   WINDOW_PROJECT,
   WINDOW_PROJECT_EDIT,
+  WINDOW_PROJECT_USER,
   WINDOW_TASK,
   WINDOW_TASK_EDIT,
 } from '@constants/WINDOW'
@@ -108,6 +109,34 @@ const Navigation = ({
                   )
                 }}>
                 {activeWindow === WINDOW_KANBAN ? 'Скрыть' : 'Показать'}
+              </button>
+            </div>
+          </div>
+
+          <div className='project-user-block block'>
+            <div className='block-content'>
+              <p className='block-label'>Команда</p>
+              <p className='block-content'>
+                Всего: {activeProject.users_count ?? 0}
+              </p>
+            </div>
+
+            <div className='block-action'>
+              <button
+                className='btn btn-primary'
+                onClick={() => {
+                  setActiveWindow((old) =>
+                    old === WINDOW_PROJECT_USER
+                      ? WINDOW_CLEAR
+                      : WINDOW_PROJECT_USER
+                  )
+                  setWindowData(() =>
+                    activeWindow === WINDOW_PROJECT_USER
+                      ? {}
+                      : { activeProject, setActiveProject, updateActiveProject }
+                  )
+                }}>
+                {activeWindow === WINDOW_PROJECT_USER ? 'Скрыть' : 'Показать'}
               </button>
             </div>
           </div>

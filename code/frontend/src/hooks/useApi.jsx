@@ -16,8 +16,12 @@ import {
   GET_KANBAN_TASKS,
   GET_NOTE_BLOCKS,
   GET_NOTES,
+  GET_PROJECT_USERS,
   GET_PROJECTS,
   GET_TASKS,
+  INVITE_PROJECT_USER,
+  REJECT_INVITE_PROJECT_USER,
+  RESEND_INVITE_PROJECT_USER,
   UPDATE_NOTE,
   UPDATE_NOTE_BLOCK,
   UPDATE_PROJECT,
@@ -114,6 +118,37 @@ const useApi = () => {
   const deleteTask = async (projectID, id) => {
     return await get(
       DELETE_TASK.replace('%project_id%', projectID) + id + '/',
+      headersWithToken
+    )
+  }
+
+  // PROJECT USERS
+  const fetchProjectUsers = async (projectID) => {
+    return await get(GET_PROJECT_USERS + projectID + '/', headersWithToken)
+  }
+
+  const inviteProjectUser = async (projectID, inviteData) => {
+    return await post(
+      INVITE_PROJECT_USER + projectID + '/',
+      inviteData,
+      headersWithToken
+    )
+  }
+
+  const rejectInviteProjectUser = async (projectID, id) => {
+    return await get(
+      REJECT_INVITE_PROJECT_USER.replace('%project_id%', projectID) + id + '/',
+      headersWithToken
+    )
+  }
+
+  const resendInviteProjectUser = async (projectID, id, inviteCode) => {
+    return await get(
+      RESEND_INVITE_PROJECT_USER.replace('%project_id%', projectID) +
+        id +
+        '/' +
+        inviteCode +
+        '/',
       headersWithToken
     )
   }
@@ -216,6 +251,11 @@ const useApi = () => {
     createTask,
     updateTask,
     deleteTask,
+    // project users
+    fetchProjectUsers,
+    inviteProjectUser,
+    rejectInviteProjectUser,
+    resendInviteProjectUser,
     // notes
     fetchNotes,
     createNote,
