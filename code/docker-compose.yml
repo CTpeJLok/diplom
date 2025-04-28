@@ -12,7 +12,7 @@ services:
       resources:
         limits:
           cpus: "0.5"
-          memory: 512M
+          memory: 128M
 
   backend:
     build: ./backend
@@ -32,7 +32,7 @@ services:
       resources:
         limits:
           cpus: "0.5"
-          memory: 128M
+          memory: 192M
   
   frontend:
     build: ./frontend
@@ -48,7 +48,7 @@ services:
       resources:
         limits:
           cpus: "0.4"
-          memory: 1024M
+          memory: 512M
   
   adminer:
     image: adminer
@@ -61,7 +61,7 @@ services:
       resources:
         limits:
           cpus: "0.1"
-          memory: 128M
+          memory: 64M
 
 volumes:
   diplom_pgdata:
