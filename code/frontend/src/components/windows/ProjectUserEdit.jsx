@@ -2,6 +2,8 @@ import { WINDOW_PROJECT_USER } from '@constants/WINDOW'
 import useApi from '@hooks/useApi'
 import { useState } from 'react'
 
+import UserPlus from '@images/user-plus.svg'
+
 const ProjectUserEdit = ({ setActiveWindow, windowData, setWindowData }) => {
   const { inviteProjectUser } = useApi()
 
@@ -35,7 +37,7 @@ const ProjectUserEdit = ({ setActiveWindow, windowData, setWindowData }) => {
             }
           )
         }}>
-        Пригласить
+        <img src={UserPlus} />
       </button>
 
       <button

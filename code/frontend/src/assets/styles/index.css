@@ -15,8 +15,8 @@ h6 {
 }
 
 html {
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   overflow: hidden;
 }
 
@@ -29,7 +29,7 @@ html {
 
 .page {
   padding: 10px;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .auth {
@@ -92,8 +92,15 @@ html {
   font-size: 12px;
   color: #777;
 }
-.home .navigation .block .block-action button, .home .navigation .window .window-content .window-note .note .block-action button, .home .window .window-content .window-note .navigation .note .block-action button, .home .navigation .window .window-content .window-project-user .project-user .block-action button, .home .window .window-content .window-project-user .navigation .project-user .block-action button, .home .navigation .window .window-content .window-kanban .kanban > div .block-action button, .home .window .window-content .window-kanban .navigation .kanban > div .block-action button, .home .navigation .window .window-content .window-task .task .block-action button, .home .window .window-content .window-task .navigation .task .block-action button, .home .navigation .window .window-content .window-project .project .block-action button, .home .window .window-content .window-project .navigation .project .block-action button, .home .navigation .window .block-action button, .home .navigation .auth .form .block-action button, .auth .home .navigation .form .block-action button, .home .navigation .navigation .block-action button {
+.home .navigation .block .block-action .btn, .home .window .window-content .window-note .navigation .note .block-action .btn, .home .window .window-content .window-project-user .navigation .project-user .block-action .btn, .home .navigation .window .window-content .window-kanban .kanban > div .block-action .btn, .home .window .window-content .window-kanban .navigation .kanban > div .block-action .btn, .home .window .window-content .window-task .navigation .task .block-action .btn, .home .window .window-content .window-project .navigation .project .block-action .btn, .home .navigation .window .block-action .btn, .home .navigation .auth .form .block-action .btn, .auth .home .navigation .form .block-action .btn, .home .navigation .navigation .block-action .btn {
   width: 100%;
+}
+.home .navigation .block .block-action .btn:has(img), .home .window .window-content .window-note .navigation .note .block-action .btn:has(img), .home .window .window-content .window-project-user .navigation .project-user .block-action .btn:has(img), .home .window .window-content .window-kanban .navigation .kanban > div .block-action .btn:has(img), .home .window .window-content .window-task .navigation .task .block-action .btn:has(img), .home .window .window-content .window-project .navigation .project .block-action .btn:has(img), .home .navigation .window .block-action .btn:has(img), .home .navigation .auth .form .block-action .btn:has(img), .auth .home .navigation .form .block-action .btn:has(img), .home .navigation .navigation .block-action .btn:has(img) {
+  padding: 7px;
+}
+.home .navigation .block .block-action .btn:has(img) img, .home .window .window-content .window-note .navigation .note .block-action .btn:has(img) img, .home .window .window-content .window-project-user .navigation .project-user .block-action .btn:has(img) img, .home .window .window-content .window-kanban .navigation .kanban > div .block-action .btn:has(img) img, .home .window .window-content .window-task .navigation .task .block-action .btn:has(img) img, .home .window .window-content .window-project .navigation .project .block-action .btn:has(img) img, .home .navigation .window .block-action .btn:has(img) img, .home .navigation .auth .form .block-action .btn:has(img) img, .auth .home .navigation .form .block-action .btn:has(img) img, .home .navigation .navigation .block-action .btn:has(img) img {
+  width: 24px;
+  height: 24px;
 }
 .home .window {
   flex: 1 1 calc(100% - var(--navigation-size) - 10px);
@@ -120,12 +127,15 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
   background: #eee;
+  overflow-x: auto;
 }
 .home .window .window-content .window-project .project.active {
   background: #fff;
 }
 .home .window .window-content .window-project .project .project-info {
+  min-width: 150px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -142,14 +152,30 @@ html {
   align-items: center;
   gap: 10px;
 }
+.home .window .window-content .window-project .project .project-actions .btn {
+  padding: 7px;
+}
+.home .window .window-content .window-project .project .project-actions .btn img {
+  width: 24px;
+  height: 24px;
+}
 .home .window .window-content .window-project-edit .form-floating {
   width: 100%;
+}
+.home .window .window-content .window-project-edit .btn:has(img) {
+  padding: 7px;
+}
+.home .window .window-content .window-project-edit .btn:has(img) img {
+  width: 24px;
+  height: 24px;
 }
 .home .window .window-content .window-task .task {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
+  overflow-x: auto;
 }
 .home .window .window-content .window-task .task.todo {
   background: #faa;
@@ -161,6 +187,7 @@ html {
   background: #afa;
 }
 .home .window .window-content .window-task .task .task-info {
+  min-width: 150px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -177,8 +204,22 @@ html {
   align-items: center;
   gap: 10px;
 }
+.home .window .window-content .window-task .task .task-actions .btn {
+  padding: 7px;
+}
+.home .window .window-content .window-task .task .task-actions .btn img {
+  width: 24px;
+  height: 24px;
+}
 .home .window .window-content .window-task-edit .form-floating {
   width: 100%;
+}
+.home .window .window-content .window-task-edit .btn:has(img) {
+  padding: 7px;
+}
+.home .window .window-content .window-task-edit .btn:has(img) img {
+  width: 24px;
+  height: 24px;
 }
 .home .window .window-content .window-kanban .kanban {
   width: 100%;
@@ -187,12 +228,13 @@ html {
   justify-content: space-between;
 }
 .home .window .window-content .window-kanban .kanban > div {
-  flex: 0 0 32%;
+  flex: 1 1 32%;
   max-width: 32%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 10px;
+  overflow-x: auto;
 }
 .home .window .window-content .window-kanban .kanban > div h4 {
   text-align: center;
@@ -201,6 +243,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
 }
 .home .window .window-content .window-kanban .kanban > div .task .task-info {
   display: flex;
@@ -219,6 +262,13 @@ html {
   align-items: center;
   gap: 10px;
 }
+.home .window .window-content .window-kanban .kanban > div .task .task-actions .btn {
+  padding: 7px;
+}
+.home .window .window-content .window-kanban .kanban > div .task .task-actions .btn img {
+  width: 24px;
+  height: 24px;
+}
 .home .window .window-content .window-kanban .kanban .kanban-todo {
   background: #faa;
 }
@@ -233,8 +283,11 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
+  overflow-x: auto;
 }
 .home .window .window-content .window-project-user .project-user .project-user-info {
+  min-width: 150px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -251,16 +304,33 @@ html {
   align-items: center;
   gap: 10px;
 }
+.home .window .window-content .window-project-user .project-user .project-user-actions .btn {
+  padding: 7px;
+}
+.home .window .window-content .window-project-user .project-user .project-user-actions .btn img {
+  width: 24px;
+  height: 24px;
+}
 .home .window .window-content .window-project-user-edit .form-floating {
   width: 100%;
+}
+.home .window .window-content .window-project-user-edit .btn:has(img) {
+  padding: 7px;
+}
+.home .window .window-content .window-project-user-edit .btn:has(img) img {
+  width: 24px;
+  height: 24px;
 }
 .home .window .window-content .window-note .note {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
+  overflow-x: auto;
 }
 .home .window .window-content .window-note .note .note-info {
+  min-width: 150px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -277,18 +347,65 @@ html {
   align-items: center;
   gap: 10px;
 }
+.home .window .window-content .window-note .note .note-actions .btn {
+  padding: 7px;
+}
+.home .window .window-content .window-note .note .note-actions .btn img {
+  width: 24px;
+  height: 24px;
+}
 .home .window .window-content .window-note-edit .form-floating {
   width: 100%;
 }
-.home .window .window-content .window-note-view > div:hover {
+.home .window .window-content .window-note-edit .btn:has(img) {
+  padding: 7px;
+}
+.home .window .window-content .window-note-edit .btn:has(img) img {
+  width: 24px;
+  height: 24px;
+}
+.home .window .window-content .window-note-view .create-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.home .window .window-content .window-note-view > div:not(:first-of-type):not(:last-of-type) {
+  position: relative;
+}
+.home .window .window-content .window-note-view > div:not(:first-of-type):not(:last-of-type):hover {
   background: #eee;
 }
-.home .window .window-content .window-note-view > div:hover.note-view-text code {
+.home .window .window-content .window-note-view > div:not(:first-of-type):not(:last-of-type):hover.note-view-text code {
   background: #eee;
+}
+.home .window .window-content .window-note-view > div:not(:first-of-type):not(:last-of-type):hover .note-block-edit {
+  display: flex;
+}
+.home .window .window-content .window-note-view > div:not(:first-of-type):not(:last-of-type) .note-block-edit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+.home .window .window-content .window-note-view > div:not(:first-of-type):not(:last-of-type) .note-block-edit .buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.home .window .window-content .window-note-view > div:not(:first-of-type):not(:last-of-type) .note-block-edit .buttons .btn {
+  padding: 7px;
+}
+.home .window .window-content .window-note-view > div:not(:first-of-type):not(:last-of-type) .note-block-edit .buttons .btn img {
+  width: 24px;
+  height: 24px;
 }
 .home .window .window-content .window-note-view .note-view-image {
+  width: 100%;
   padding-top: 40px;
-  padding-bottom: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -301,5 +418,52 @@ html {
 .home .window .window-content .window-note-view .note-view-text {
   width: 100%;
   padding-top: 40px;
-  padding-bottom: 40px;
+}
+
+@media (max-width: 1200px) {
+  .home .window .window-content .window-kanban .kanban {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .home .window .window-content .window-kanban .kanban > div {
+    flex: 1 1 48%;
+    max-width: 48%;
+  }
+}
+@media (max-width: 991px) {
+  .home .window .window-content .window-kanban .kanban {
+    flex-direction: column;
+  }
+  .home .window .window-content .window-kanban .kanban > div {
+    max-height: 300px;
+    overflow-y: auto;
+    flex: none;
+    max-width: none;
+  }
+}
+@media (max-width: 768px) {
+  .home {
+    --navigation-size: 90px;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  .home .navigation {
+    flex: none;
+    max-width: none;
+    max-height: none;
+    height: var(--navigation-size);
+    flex-direction: row;
+  }
+  .home .navigation .block, .home .navigation .auth .form, .auth .home .navigation .form, .home .navigation .navigation, .home .navigation .window, .home .navigation .window .window-content .window-project .project, .home .window .window-content .window-project .navigation .project, .home .navigation .window .window-content .window-task .task, .home .window .window-content .window-task .navigation .task, .home .navigation .window .window-content .window-kanban .kanban > div, .home .window .window-content .window-kanban .navigation .kanban > div, .home .navigation .window .window-content .window-project-user .project-user, .home .window .window-content .window-project-user .navigation .project-user, .home .navigation .window .window-content .window-note .note, .home .window .window-content .window-note .navigation .note {
+    min-width: 200px;
+  }
+  .home .window {
+    max-width: none;
+    max-height: calc(100dvh - var(--navigation-size) - 30px);
+  }
+  .home .window .window-content .window-note-view > div:not(:first-of-type):not(:last-of-type) .note-block-edit {
+    display: flex;
+  }
 }/*# sourceMappingURL=index.css.map */

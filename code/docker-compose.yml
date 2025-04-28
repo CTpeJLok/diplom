@@ -42,14 +42,13 @@ services:
     volumes:
       - ./frontend/public:/app/public
       - ./frontend/src:/app/src
-      - ./frontend/dist:/app/dist
       - ./frontend/eslint.config.js:/app/eslint.config.js
       - ./frontend/vite.config.js:/app/vite.config.js
     deploy:
       resources:
         limits:
           cpus: "0.4"
-          memory: 512M
+          memory: 1024M
   
   adminer:
     image: adminer

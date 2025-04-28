@@ -14,6 +14,10 @@ import useApi from '@hooks/useApi'
 import useToken from '@hooks/useToken'
 import { useNavigate } from 'react-router-dom'
 
+import EyeSlash from '@images/eye-slash.svg'
+import Eye from '@images/eye.svg'
+import RightFromBracket from '@images/right-from-bracket.svg'
+
 const Navigation = ({
   activeProject,
   setActiveProject,
@@ -55,7 +59,7 @@ const Navigation = ({
           <button
             className='btn btn-danger'
             onClick={() => makeLogout()}>
-            Выйти
+            <img src={RightFromBracket} />
           </button>
         </div>
       </div>
@@ -81,9 +85,13 @@ const Navigation = ({
                   : { activeProject, setActiveProject, updateActiveProject }
               )
             }}>
-            {[WINDOW_PROJECT, WINDOW_PROJECT_EDIT].includes(activeWindow)
-              ? 'Скрыть'
-              : 'Сменить'}
+            <img
+              src={
+                [WINDOW_PROJECT, WINDOW_PROJECT_EDIT].includes(activeWindow)
+                  ? EyeSlash
+                  : Eye
+              }
+            />
           </button>
         </div>
       </div>
@@ -108,7 +116,7 @@ const Navigation = ({
                       : { activeProject, updateActiveProject }
                   )
                 }}>
-                {activeWindow === WINDOW_KANBAN ? 'Скрыть' : 'Показать'}
+                <img src={activeWindow === WINDOW_KANBAN ? EyeSlash : Eye} />
               </button>
             </div>
           </div>
@@ -136,7 +144,9 @@ const Navigation = ({
                       : { activeProject, setActiveProject, updateActiveProject }
                   )
                 }}>
-                {activeWindow === WINDOW_PROJECT_USER ? 'Скрыть' : 'Показать'}
+                <img
+                  src={activeWindow === WINDOW_PROJECT_USER ? EyeSlash : Eye}
+                />
               </button>
             </div>
           </div>
@@ -164,9 +174,13 @@ const Navigation = ({
                       : { activeProject, setActiveProject, updateActiveProject }
                   )
                 }}>
-                {[WINDOW_TASK, WINDOW_TASK_EDIT].includes(activeWindow)
-                  ? 'Скрыть'
-                  : 'Показать'}
+                <img
+                  src={
+                    [WINDOW_TASK, WINDOW_TASK_EDIT].includes(activeWindow)
+                      ? EyeSlash
+                      : Eye
+                  }
+                />
               </button>
             </div>
           </div>
@@ -198,11 +212,15 @@ const Navigation = ({
                       : { activeProject, updateActiveProject }
                   )
                 }}>
-                {[WINDOW_NOTE, WINDOW_NOTE_EDIT, WINDOW_NOTE_VIEW].includes(
-                  activeWindow
-                )
-                  ? 'Скрыть'
-                  : 'Показать'}
+                <img
+                  src={
+                    [WINDOW_NOTE, WINDOW_NOTE_EDIT, WINDOW_NOTE_VIEW].includes(
+                      activeWindow
+                    )
+                      ? EyeSlash
+                      : Eye
+                  }
+                />
               </button>
             </div>
           </div>

@@ -2,6 +2,10 @@ import { WINDOW_NOTE_EDIT, WINDOW_NOTE_VIEW } from '@constants/WINDOW'
 import useApi from '@hooks/useApi'
 import { useEffect, useState } from 'react'
 
+import Eye from '@images/eye.svg'
+import Pen from '@images/pen.svg'
+import Trash from '@images/trash.svg'
+
 const Note = ({ setActiveWindow, windowData, setWindowData }) => {
   const { fetchNotes, deleteNote } = useApi()
 
@@ -58,7 +62,7 @@ const Note = ({ setActiveWindow, windowData, setWindowData }) => {
                 }))
                 setActiveWindow(() => WINDOW_NOTE_VIEW)
               }}>
-              Просмотр
+              <img src={Eye} />
             </button>
             <button
               className='btn btn-secondary'
@@ -71,7 +75,7 @@ const Note = ({ setActiveWindow, windowData, setWindowData }) => {
                 }))
                 setActiveWindow(() => WINDOW_NOTE_EDIT)
               }}>
-              Редактировать
+              <img src={Pen} />
             </button>
             <button
               className='btn btn-danger'
@@ -85,7 +89,7 @@ const Note = ({ setActiveWindow, windowData, setWindowData }) => {
                   }
                 )
               }}>
-              Удалить
+              <img src={Trash} />
             </button>
           </div>
         </div>

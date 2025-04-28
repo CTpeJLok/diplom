@@ -1,5 +1,14 @@
+import os
+from uuid import uuid4
+
 from django.db import models
 from project_manager.models import Project
+
+
+def upload_to(instance, filename):
+    ext = filename.split(".")[-1]
+    new_filename = f"{uuid4()}.{ext[:5]}"
+    return os.path.join("note_blocks/", new_filename)
 
 
 class Note(models.Model):
@@ -70,7 +79,7 @@ class NoteBlock(models.Model):
     image = models.ImageField(
         null=True,
         blank=True,
-        upload_to="note_blocks/",
+        upload_to=upload_to,
         verbose_name="Изображение",
     )
 

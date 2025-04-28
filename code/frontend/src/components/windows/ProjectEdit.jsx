@@ -2,6 +2,8 @@ import { WINDOW_CLEAR, WINDOW_PROJECT } from '@constants/WINDOW'
 import useApi from '@hooks/useApi'
 import { useState } from 'react'
 
+import FloppyDisk from '@images/floppy-disk.svg'
+
 const ProjectEdit = ({ setActiveWindow, windowData, setWindowData }) => {
   const { createProject, updateProject } = useApi()
 
@@ -61,7 +63,7 @@ const ProjectEdit = ({ setActiveWindow, windowData, setWindowData }) => {
               }
             })
         }}>
-        Сохранить
+        <img src={FloppyDisk} />
       </button>
 
       <button

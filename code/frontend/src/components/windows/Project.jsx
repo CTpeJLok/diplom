@@ -2,6 +2,10 @@ import { WINDOW_CLEAR, WINDOW_PROJECT_EDIT } from '@constants/WINDOW'
 import useApi from '@hooks/useApi'
 import { useEffect, useState } from 'react'
 
+import Check from '@images/check.svg'
+import Pen from '@images/pen.svg'
+import Trash from '@images/trash.svg'
+
 const Project = ({ setActiveWindow, windowData, setWindowData }) => {
   const { fetchProjects, deleteProject } = useApi()
 
@@ -51,7 +55,7 @@ const Project = ({ setActiveWindow, windowData, setWindowData }) => {
                 )
                 setActiveWindow(() => WINDOW_CLEAR)
               }}>
-              Выбрать
+              <img src={Check} />
             </button>
             <button
               className='btn btn-secondary'
@@ -64,7 +68,7 @@ const Project = ({ setActiveWindow, windowData, setWindowData }) => {
                 }))
                 setActiveWindow(() => WINDOW_PROJECT_EDIT)
               }}>
-              Редактировать
+              <img src={Pen} />
             </button>
             <button
               className='btn btn-danger'
@@ -81,7 +85,7 @@ const Project = ({ setActiveWindow, windowData, setWindowData }) => {
                   }
                 })
               }}>
-              Удалить
+              <img src={Trash} />
             </button>
           </div>
         </div>

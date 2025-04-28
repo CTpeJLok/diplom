@@ -2,6 +2,9 @@ import { WINDOW_PROJECT_USER_EDIT } from '@constants/WINDOW'
 import useApi from '@hooks/useApi'
 import { useEffect, useState } from 'react'
 
+import Trash from '@images/trash.svg'
+import UserPlus from '@images/user-plus.svg'
+
 const ProjectUser = ({ setActiveWindow, windowData, setWindowData }) => {
   const {
     fetchProjectUsers,
@@ -55,7 +58,7 @@ const ProjectUser = ({ setActiveWindow, windowData, setWindowData }) => {
                     windowData.updateActiveProject()
                   })
                 }}>
-                Отменить
+                <img src={Trash} />
               </button>
 
               {projectUser.invite_code && (
@@ -70,7 +73,7 @@ const ProjectUser = ({ setActiveWindow, windowData, setWindowData }) => {
                       updateProjectUsers()
                     })
                   }}>
-                  Повторное приглашение
+                  <img src={UserPlus} />
                 </button>
               )}
             </div>

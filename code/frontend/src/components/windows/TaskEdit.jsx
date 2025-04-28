@@ -2,6 +2,8 @@ import { WINDOW_TASK } from '@constants/WINDOW'
 import useApi from '@hooks/useApi'
 import { useState } from 'react'
 
+import FloppyDisk from '@images/floppy-disk.svg'
+
 const TaskEdit = ({ setActiveWindow, windowData, setWindowData }) => {
   const { createTask, updateTask } = useApi()
 
@@ -98,7 +100,7 @@ const TaskEdit = ({ setActiveWindow, windowData, setWindowData }) => {
               }
             })
         }}>
-        Сохранить
+        <img src={FloppyDisk} />
       </button>
 
       <button

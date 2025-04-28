@@ -2,6 +2,8 @@ import { WINDOW_NOTE } from '@constants/WINDOW'
 import useApi from '@hooks/useApi'
 import { useState } from 'react'
 
+import FloppyDisk from '@images/floppy-disk.svg'
+
 const NoteEdit = ({ setActiveWindow, windowData, setWindowData }) => {
   const { createNote, updateNote } = useApi()
 
@@ -66,7 +68,7 @@ const NoteEdit = ({ setActiveWindow, windowData, setWindowData }) => {
               }
             })
         }}>
-        Сохранить
+        <img src={FloppyDisk} />
       </button>
 
       <button

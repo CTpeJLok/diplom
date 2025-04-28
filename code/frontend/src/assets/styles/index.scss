@@ -15,8 +15,8 @@ h6 {
 }
 
 html {
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
 
   overflow: hidden;
 }
@@ -31,7 +31,7 @@ html {
 
 .page {
   padding: 10px;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .auth {
@@ -114,8 +114,17 @@ html {
       }
 
       .block-action {
-        button {
+        .btn {
           width: 100%;
+
+          &:has(img) {
+            padding: 7px;
+
+            img {
+              width: 24px;
+              height: 24px;
+            }
+          }
         }
       }
     }
@@ -155,14 +164,19 @@ html {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 20px;
 
           background: #eee;
+
+          overflow-x: auto;
 
           &.active {
             background: #fff;
           }
 
           .project-info {
+            min-width: 150px;
+
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -181,6 +195,15 @@ html {
             display: flex;
             align-items: center;
             gap: 10px;
+
+            .btn {
+              padding: 7px;
+
+              img {
+                width: 24px;
+                height: 24px;
+              }
+            }
           }
         }
       }
@@ -188,6 +211,15 @@ html {
       .window-project-edit {
         .form-floating {
           width: 100%;
+        }
+
+        .btn:has(img) {
+          padding: 7px;
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
         }
       }
 
@@ -200,6 +232,9 @@ html {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 20px;
+
+          overflow-x: auto;
 
           &.todo {
             background: #faa;
@@ -214,6 +249,8 @@ html {
           }
 
           .task-info {
+            min-width: 150px;
+
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -232,6 +269,15 @@ html {
             display: flex;
             align-items: center;
             gap: 10px;
+
+            .btn {
+              padding: 7px;
+
+              img {
+                width: 24px;
+                height: 24px;
+              }
+            }
           }
         }
       }
@@ -239,6 +285,15 @@ html {
       .window-task-edit {
         .form-floating {
           width: 100%;
+        }
+
+        .btn:has(img) {
+          padding: 7px;
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
         }
       }
 
@@ -251,7 +306,7 @@ html {
           justify-content: space-between;
 
           & > div {
-            flex: 0 0 32%;
+            flex: 1 1 32%;
             max-width: 32%;
 
             @extend .block;
@@ -261,6 +316,8 @@ html {
             align-items: stretch;
             gap: 10px;
 
+            overflow-x: auto;
+
             h4 {
               text-align: center;
             }
@@ -269,6 +326,7 @@ html {
               display: flex;
               align-items: center;
               justify-content: space-between;
+              gap: 20px;
 
               .task-info {
                 display: flex;
@@ -289,6 +347,15 @@ html {
                 display: flex;
                 align-items: center;
                 gap: 10px;
+
+                .btn {
+                  padding: 7px;
+
+                  img {
+                    width: 24px;
+                    height: 24px;
+                  }
+                }
               }
             }
           }
@@ -316,8 +383,13 @@ html {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 20px;
+
+          overflow-x: auto;
 
           .project-user-info {
+            min-width: 150px;
+
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -336,6 +408,15 @@ html {
             display: flex;
             align-items: center;
             gap: 10px;
+
+            .btn {
+              padding: 7px;
+
+              img {
+                width: 24px;
+                height: 24px;
+              }
+            }
           }
         }
       }
@@ -343,6 +424,15 @@ html {
       .window-project-user-edit {
         .form-floating {
           width: 100%;
+        }
+
+        .btn:has(img) {
+          padding: 7px;
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
         }
       }
 
@@ -355,8 +445,13 @@ html {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 20px;
+
+          overflow-x: auto;
 
           .note-info {
+            min-width: 150px;
+
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -375,6 +470,15 @@ html {
             display: flex;
             align-items: center;
             gap: 10px;
+
+            .btn {
+              padding: 7px;
+
+              img {
+                width: 24px;
+                height: 24px;
+              }
+            }
           }
         }
       }
@@ -383,24 +487,75 @@ html {
         .form-floating {
           width: 100%;
         }
+        .btn:has(img) {
+          padding: 7px;
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
+        }
       }
 
       .window-note-view {
-        & > div {
-          &:hover {
-            background: #eee;
+        .create-buttons {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
 
-            &.note-view-text {
-              code {
+        & > div {
+          &:not(:first-of-type) {
+            &:not(:last-of-type) {
+              &:hover {
                 background: #eee;
+
+                &.note-view-text {
+                  code {
+                    background: #eee;
+                  }
+                }
+
+                .note-block-edit {
+                  display: flex;
+                }
+              }
+
+              position: relative;
+
+              .note-block-edit {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+
+                display: none;
+                flex-direction: column;
+                align-items: center;
+
+                .buttons {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 10px;
+
+                  .btn {
+                    padding: 7px;
+
+                    img {
+                      width: 24px;
+                      height: 24px;
+                    }
+                  }
+                }
               }
             }
           }
         }
 
         .note-view-image {
+          width: 100%;
           padding-top: 40px;
-          padding-bottom: 40px;
 
           display: flex;
           justify-content: center;
@@ -415,7 +570,93 @@ html {
         .note-view-text {
           width: 100%;
           padding-top: 40px;
-          padding-bottom: 40px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .home {
+    .window {
+      .window-content {
+        .window-kanban {
+          .kanban {
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+
+            & > div {
+              flex: 1 1 48%;
+              max-width: 48%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .home {
+    .window {
+      .window-content {
+        .window-kanban {
+          .kanban {
+            flex-direction: column;
+
+            & > div {
+              max-height: 300px;
+              overflow-y: auto;
+
+              flex: none;
+              max-width: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .home {
+    --navigation-size: 90px;
+
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+
+    .navigation {
+      flex: none;
+      max-width: none;
+      max-height: none;
+
+      height: var(--navigation-size);
+
+      flex-direction: row;
+
+      .block {
+        min-width: 200px;
+      }
+    }
+
+    .window {
+      max-width: none;
+
+      max-height: calc(100dvh - var(--navigation-size) - 30px);
+
+      .window-content {
+        .window-note-view {
+          & > div {
+            &:not(:first-of-type) {
+              &:not(:last-of-type) {
+                .note-block-edit {
+                  display: flex;
+                }
+              }
+            }
+          }
         }
       }
     }

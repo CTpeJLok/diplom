@@ -2,6 +2,9 @@ import { WINDOW_TASK_EDIT } from '@constants/WINDOW'
 import useApi from '@hooks/useApi'
 import { useEffect, useState } from 'react'
 
+import Pen from '@images/pen.svg'
+import Trash from '@images/trash.svg'
+
 const Task = ({ setActiveWindow, windowData, setWindowData }) => {
   const { fetchTasks, deleteTask } = useApi()
 
@@ -66,7 +69,7 @@ const Task = ({ setActiveWindow, windowData, setWindowData }) => {
                 }))
                 setActiveWindow(() => WINDOW_TASK_EDIT)
               }}>
-              Редактировать
+              <img src={Pen} />
             </button>
             <button
               className='btn btn-danger'
@@ -80,7 +83,7 @@ const Task = ({ setActiveWindow, windowData, setWindowData }) => {
                   }
                 )
               }}>
-              Удалить
+              <img src={Trash} />
             </button>
           </div>
         </div>

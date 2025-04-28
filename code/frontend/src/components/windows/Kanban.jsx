@@ -1,6 +1,10 @@
 import useApi from '@hooks/useApi'
 import { useEffect, useState } from 'react'
 
+import AngleLeft from '@images/angle-left.svg'
+import AngleRight from '@images/angle-right.svg'
+import EyeSlash from '@images/eye-slash.svg'
+
 const Kanban = ({ windowData }) => {
   const { fetchKanbanTasks, updateTask } = useApi()
 
@@ -78,12 +82,12 @@ const Kanban = ({ windowData }) => {
                 <button
                   className='btn btn-primary'
                   onClick={() => moveTaskNext(task)}>
-                  &gt;
+                  <img src={AngleRight} />
                 </button>
                 <button
                   className='btn btn-danger'
                   onClick={() => hideFromKanban(task)}>
-                  X
+                  <img src={EyeSlash} />
                 </button>
               </div>
             </div>
@@ -106,17 +110,17 @@ const Kanban = ({ windowData }) => {
                 <button
                   className='btn btn-primary'
                   onClick={() => moveTaskPrevious(task)}>
-                  &lt;
+                  <img src={AngleLeft} />
                 </button>
                 <button
                   className='btn btn-primary'
                   onClick={() => moveTaskNext(task)}>
-                  &gt;
+                  <img src={AngleRight} />
                 </button>
                 <button
                   className='btn btn-danger'
                   onClick={() => hideFromKanban(task)}>
-                  X
+                  <img src={EyeSlash} />
                 </button>
               </div>
             </div>
@@ -139,12 +143,12 @@ const Kanban = ({ windowData }) => {
                 <button
                   className='btn btn-primary'
                   onClick={() => moveTaskPrevious(task)}>
-                  &lt;
+                  <img src={AngleLeft} />
                 </button>
                 <button
                   className='btn btn-danger'
                   onClick={() => hideFromKanban(task)}>
-                  X
+                  <img src={EyeSlash} />
                 </button>
               </div>
             </div>

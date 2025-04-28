@@ -20,6 +20,7 @@ import {
   GET_PROJECTS,
   GET_TASKS,
   INVITE_PROJECT_USER,
+  ORDER_NOTE_BLOCK,
   REJECT_INVITE_PROJECT_USER,
   RESEND_INVITE_PROJECT_USER,
   UPDATE_NOTE,
@@ -231,6 +232,20 @@ const useApi = () => {
     )
   }
 
+  const orderNoteBlock = async (projectID, noteID, id, order) => {
+    return await get(
+      ORDER_NOTE_BLOCK.replace('%project_id%', projectID).replace(
+        '%note_id%',
+        noteID
+      ) +
+        id +
+        '/' +
+        order +
+        '/',
+      headersWithToken
+    )
+  }
+
   return {
     // auth
     login,
@@ -266,6 +281,7 @@ const useApi = () => {
     createNoteBlock,
     updateNoteBlock,
     deleteNoteBlock,
+    orderNoteBlock,
   }
 }
 

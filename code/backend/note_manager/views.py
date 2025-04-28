@@ -153,9 +153,9 @@ def update_note_block(
     text = request.data.get("text")
     image = request.data.get("image")
 
-    if text is not None:
+    if note_block.block_type == NoteBlock.TYPE_TEXT and text is not None:
         note_block.text = text
-    if image:
+    if note_block.block_type == NoteBlock.TYPE_IMAGE and image is not None:
         note_block.image = image
 
     note_block.save()
@@ -216,26 +216,25 @@ def change_note_block_order(
 
         next_block.save()
         note_block.save()
-        return Response()
+    else:
+        prev_block: NoteBlock | None = NoteBlock.objects.filter(
+            note_id=note_id,
+            order__lt=note_block.order,
+        ).last()
 
-    prev_block: NoteBlock | None = NoteBlock.objects.filter(
-        note_id=note_id,
-        order__lt=note_block.order,
-    ).last()
+        if prev_block is None:
+            return Response(
+                {"detail": "Previous block not found"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-    if prev_block is None:
-        return Response(
-            {"detail": "Previous block not found"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        prev_block_order = prev_block.order
 
-    prev_block_order = prev_block.order
+        prev_block.order = note_block.order
+        note_block.order = prev_block_order
 
-    prev_block.order = note_block.order
-    note_block.order = prev_block_order
-
-    prev_block.save()
-    note_block.save()
+        prev_block.save()
+        note_block.save()
 
     blocks = NoteBlock.objects.filter(note_id=note_id).order_by("order")
     result = [dict(NoteBlockSerializer(i).data) for i in blocks]
