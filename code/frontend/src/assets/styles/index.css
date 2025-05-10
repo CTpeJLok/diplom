@@ -455,6 +455,7 @@ html {
     max-height: none;
     height: var(--navigation-size);
     flex-direction: row;
+    order: 2;
   }
   .home .navigation .block, .home .navigation .auth .form, .auth .home .navigation .form, .home .navigation .navigation, .home .navigation .window, .home .navigation .window .window-content .window-project .project, .home .window .window-content .window-project .navigation .project, .home .navigation .window .window-content .window-task .task, .home .window .window-content .window-task .navigation .task, .home .navigation .window .window-content .window-kanban .kanban > div, .home .window .window-content .window-kanban .navigation .kanban > div, .home .navigation .window .window-content .window-project-user .project-user, .home .window .window-content .window-project-user .navigation .project-user, .home .navigation .window .window-content .window-note .note, .home .window .window-content .window-note .navigation .note {
     min-width: 200px;

@@ -21,7 +21,8 @@ from .models import Project, ProjectUser
 @permission_classes([IsAuthenticated])
 def get_projects(request) -> Response:
     projects: QuerySet[Project] = Project.objects.filter(
-        project_users__user=request.user
+        project_users__user=request.user,
+        project_users__invite_code__isnull=True,
     )
 
     result = [dict(ProjectSerializer(i).data) for i in projects]

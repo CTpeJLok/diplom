@@ -18,7 +18,11 @@ class Task(models.Model):
         max_length=100,
         verbose_name="Название",
     )
-    description = models.TextField(verbose_name="Описание")
+    description = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Описание",
+    )
 
     created_at = models.DateTimeField(
         auto_now_add=True,
